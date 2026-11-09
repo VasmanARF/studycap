@@ -1,0 +1,5 @@
+# Normalise line endings
+* text=auto
+
+# Jinja page templates are mostly markup; keep them out of GitHub's language stats
+web-app/templates/** linguist-detectable=false
