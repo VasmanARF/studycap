@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyCap Feedback Admin</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- PostHog Analytics -->
+    <script>
+        !function(t,e){var o,n,p,r;e.__SV||(window.posthog && window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Rr Mr fi Or Ar ci Tr Cr capture Mi calculateEventProperties Lr register register_once register_for_session unregister unregister_for_session Hr getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Ur jr createPersonProfile zr kr Br opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing Dr debug M Nr getPageViewId captureTraceFeedback captureTraceMetric $r".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+
+        posthog.init('{{ posthog_key }}', {
+            api_host: 'https://us.i.posthog.com',
+            defaults: '2025-05-24',
+            person_profiles: 'identified_only'
+        })
+        
+        posthog.capture('$pageview', {
+            page: '/feedback-admin',
+            page_title: 'StudyCap Feedback Admin'
+        });
+    </script>
+    <script defer src="/static/js/posthog-identify.js"></script>
+    
+    <style>
+        :root {
+            --primary: #673ab7;
+            --secondary: #00c9b7;
+            --accent: #ec4899;
+            --text: #2d3748;
+            --bg: #f8fafc;
+            --border: #e2e8f0;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text);
+            background-color: var(--bg);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 5px;
+            font-size: 28px;
+            width: 100%;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        
+        .login-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .lock-icon {
+            font-size: 32px;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        
+        .password-field {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+        
+        .password-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(103, 58, 183, 0.1);
+        }
+        
+        .login-button {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            width: 100%;
+        }
+        
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(103, 58, 183, 0.2);
+        }
+        
+        .error-message {
+            color: #e53e3e;
+            margin-top: 10px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        /* Dashboard Styles */
+        .dashboard {
+            display: none;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .dashboard-title {
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+        }
+        
+        .stat-title {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .feedback-table-container {
+            overflow-x: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+            padding: 20px;
+        }
+        
+        .feedback-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        .feedback-table th {
+            text-align: left;
+            padding: 12px 15px;
+            background: rgba(103, 58, 183, 0.05);
+            border-bottom: 2px solid rgba(103, 58, 183, 0.1);
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .feedback-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        
+        .feedback-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .feedback-table tr:hover {
+            background-color: rgba(103, 58, 183, 0.02);
+        }
+        
+        .star-rating {
+            color: #fbbf24;
+            font-size: 14px;
+        }
+        
+        .filter-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+        
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            background-color: white;
+        }
+        
+        .suggestions-text {
+            max-width: 300px;
+            white-space: pre-wrap;
+            font-size: 14px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.4;
+        }
+        
+        .export-button {
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .export-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.2);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 5px;
+        }
+        
+        .pagination-button {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            background-color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .pagination-button:hover {
+            background-color: rgba(103, 58, 183, 0.05);
+        }
+        
+        .pagination-button.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .pagination-ellipsis {
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .timestamp {
+            font-size: 12px;
+            color: #64748b;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+        }
+        
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #e2e8f0;
+        }
+        
+        .empty-state p {
+            font-size: 16px;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="loginContainer" class="login-container">
+            <i class="fas fa-lock lock-icon"></i>
+            <div class="login-title">Admin Dashboard Access</div>
+            <form id="loginForm">
+                <input type="password" id="adminPassword" class="password-field" placeholder="Enter access password">
+                <button type="submit" class="login-button">Login</button>
+                <div id="errorMessage" class="error-message">Incorrect password. Please try again.</div>
+            </form>
+        </div>
+        
+        <div id="dashboard" class="dashboard">
+            <div class="dashboard-header">
+                <div class="dashboard-title">StudyCap Feedback Dashboard</div>
+                <button id="exportButton" class="export-button">
+                    <i class="fas fa-download"></i> Export CSV
+                </button>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-title">Total Feedback</div>
+                    <div id="totalFeedback" class="stat-value">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Average Helpfulness</div>
+                    <div id="avgHelpfulness" class="stat-value">0.0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Average Usability</div>
+                    <div id="avgUsability" class="stat-value">0.0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Average Quality</div>
+                    <div id="avgQuality" class="stat-value">0.0</div>
+                </div>
+            </div>
+            
+            <div class="feedback-table-container">
+                <div class="filter-container">
+                    <select id="sortFilter" class="filter-select">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="helpfulness">Helpfulness (High to Low)</option>
+                        <option value="usability">Usability (High to Low)</option>
+                    </select>
+                </div>
+                
+                <table class="feedback-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Helpfulness</th>
+                            <th>Usability</th>
+                            <th>Quality</th>
+                            <th>Performance</th>
+                            <th>Suggestions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="feedbackTableBody">
+                        <!-- Feedback items will be inserted here -->
+                    </tbody>
+                </table>
+                
+                <div id="emptyState" class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>No feedback submissions yet</p>
+                </div>
+                
+                <div id="pagination" class="pagination">
+                    <!-- Pagination will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Pagination variables
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        let allFeedbackData = [];
+        
+        // Login form handling
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('adminPassword').value;
+            
+            // Call the API to verify the password
+            fetch('/api/verify-admin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ password: password }),
+                credentials: 'include'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Hide login, show dashboard
+                    document.getElementById('loginContainer').style.display = 'none';
+                    document.getElementById('dashboard').style.display = 'block';
+                    
+                    // Load feedback data
+                    loadFeedbackData(password);
+                } else {
+                    // Show error message
+                    document.getElementById('errorMessage').style.display = 'block';
+                    document.getElementById('adminPassword').value = '';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('adminPassword').value = '';
+            });
+        });
+        
+        // Sort filter handling
+        document.getElementById('sortFilter').addEventListener('change', function() {
+            loadFeedbackData(document.getElementById('adminPassword').value);
+        });
+        
+        // Export button handling
+        document.getElementById('exportButton').addEventListener('click', function() {
+            exportToCSV();
+        });
+        
+        // Function to load feedback data
+        function loadFeedbackData(password) {
+            // In a real implementation, this would be a fetch request to your API
+            fetch('/api/get-feedback?password=' + encodeURIComponent(password), {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Store all data
+                allFeedbackData = data;
+                
+                // Sort data based on filter
+                sortFeedbackData();
+                
+                // Update stats
+                updateStats(data);
+                
+                // Render table
+                renderFeedbackTable();
+                
+                // Show/hide empty state
+                document.getElementById('emptyState').style.display = 
+                    data.length > 0 ? 'none' : 'block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // For demo purposes, create some sample data
+                createSampleData();
+            });
+        }
+        
+        // Function to sort feedback data
+        function sortFeedbackData() {
+            const sortBy = document.getElementById('sortFilter').value;
+            
+            switch(sortBy) {
+                case 'newest':
+                    allFeedbackData.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                    break;
+                case 'oldest':
+                    allFeedbackData.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+                    break;
+                case 'helpfulness':
+                    allFeedbackData.sort((a, b) => (b.helpfulness || 0) - (a.helpfulness || 0));
+                    break;
+                case 'usability':
+                    allFeedbackData.sort((a, b) => (b.usability || 0) - (a.usability || 0));
+                    break;
+                default:
+                    allFeedbackData.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            }
+        }
+        
+        // Function to update stats
+        function updateStats(data) {
+            // Calculate total feedback
+            document.getElementById('totalFeedback').textContent = data.length;
+            
+            // Calculate average ratings
+            if (data.length > 0) {
+                const helpfulnessValues = data.filter(item => item.helpfulness).map(item => parseInt(item.helpfulness));
+                const usabilityValues = data.filter(item => item.usability).map(item => parseInt(item.usability));
+                const qualityValues = data.filter(item => item.quality).map(item => parseInt(item.quality));
+                
+                const avgHelpfulness = helpfulnessValues.length > 0 ? 
+                    (helpfulnessValues.reduce((a, b) => a + b, 0) / helpfulnessValues.length).toFixed(1) : "N/A";
+                    
+                const avgUsability = usabilityValues.length > 0 ? 
+                    (usabilityValues.reduce((a, b) => a + b, 0) / usabilityValues.length).toFixed(1) : "N/A";
+                    
+                const avgQuality = qualityValues.length > 0 ? 
+                    (qualityValues.reduce((a, b) => a + b, 0) / qualityValues.length).toFixed(1) : "N/A";
+                
+                document.getElementById('avgHelpfulness').textContent = avgHelpfulness;
+                document.getElementById('avgUsability').textContent = avgUsability;
+                document.getElementById('avgQuality').textContent = avgQuality;
+            }
+        }
+        
+        // Function to render feedback table with pagination
+        function renderFeedbackTable() {
+            const tableBody = document.getElementById('feedbackTableBody');
+            tableBody.innerHTML = '';
+            
+            // Calculate pagination
+            const totalPages = Math.ceil(allFeedbackData.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, allFeedbackData.length);
+            
+            // Get current page data
+            const currentPageData = allFeedbackData.slice(startIndex, endIndex);
+            
+            // Render data
+            currentPageData.forEach(item => {
+                const row = document.createElement('tr');
+                
+                // Format date
+                const date = new Date(item.timestamp);
+                const formattedDate = date.toLocaleDateString();
+                const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                // Create star ratings
+                const helpfulnessStars = createStarRating(item.helpfulness);
+                const usabilityStars = createStarRating(item.usability);
+                const qualityStars = createStarRating(item.quality);
+                const performanceStars = createStarRating(item.performance);
+                
+                row.innerHTML = `
+                    <td>
+                        <div>${formattedDate}</div>
+                        <div class="timestamp">${formattedTime}</div>
+                    </td>
+                    <td>${helpfulnessStars}</td>
+                    <td>${usabilityStars}</td>
+                    <td>${qualityStars}</td>
+                    <td>${performanceStars}</td>
+                    <td class="suggestions-text">${item.suggestions || ''}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Render pagination
+            renderPagination(totalPages);
+        }
+        
+        // Function to create star rating display
+        function createStarRating(rating) {
+            if (!rating) return 'N/A';
+            
+            let stars = '<div class="star-rating">';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    stars += '<i class="fas fa-star"></i>';
+                } else {
+                    stars += '<i class="far fa-star"></i>';
+                }
+            }
+            stars += '</div>';
+            
+            return stars;
+        }
+        
+        // Function to render pagination
+        function renderPagination(totalPages) {
+            const paginationContainer = document.getElementById('pagination');
+            paginationContainer.innerHTML = '';
+            
+            if (totalPages <= 1) {
+                return;
+            }
+            
+            // Previous button
+            const prevButton = document.createElement('button');
+            prevButton.className = 'pagination-button';
+            prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+            prevButton.disabled = currentPage === 1;
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderFeedbackTable();
+                }
+            });
+            paginationContainer.appendChild(prevButton);
+            
+            // Page numbers
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            if (endPage - startPage < maxVisiblePages - 1) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            if (startPage > 1) {
+                const firstPageButton = document.createElement('button');
+                firstPageButton.className = 'pagination-button';
+                firstPageButton.textContent = '1';
+                firstPageButton.addEventListener('click', () => {
+                    currentPage = 1;
+                    renderFeedbackTable();
+                });
+                paginationContainer.appendChild(firstPageButton);
+                
+                if (startPage > 2) {
+                    const ellipsis = document.createElement('div');
+                    ellipsis.className = 'pagination-ellipsis';
+                    ellipsis.textContent = '...';
+                    paginationContainer.appendChild(ellipsis);
+                }
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.className = 'pagination-button';
+                if (i === currentPage) {
+                    pageButton.classList.add('active');
+                }
+                pageButton.textContent = i;
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    renderFeedbackTable();
+                });
+                paginationContainer.appendChild(pageButton);
+            }
+            
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    const ellipsis = document.createElement('div');
+                    ellipsis.className = 'pagination-ellipsis';
+                    ellipsis.textContent = '...';
+                    paginationContainer.appendChild(ellipsis);
+                }
+                
+                const lastPageButton = document.createElement('button');
+                lastPageButton.className = 'pagination-button';
+                lastPageButton.textContent = totalPages;
+                lastPageButton.addEventListener('click', () => {
+                    currentPage = totalPages;
+                    renderFeedbackTable();
+                });
+                paginationContainer.appendChild(lastPageButton);
+            }
+            
+            // Next button
+            const nextButton = document.createElement('button');
+            nextButton.className = 'pagination-button';
+            nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            nextButton.disabled = currentPage === totalPages;
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderFeedbackTable();
+                }
+            });
+            paginationContainer.appendChild(nextButton);
+        }
+        
+        // Function to export data to CSV
+        function exportToCSV() {
+            const headers = ['Date', 'Time', 'Helpfulness', 'Usability', 'Quality', 'Performance', 'Suggestions'];
+            
+            let csvContent = headers.join(',') + '\n';
+            
+            allFeedbackData.forEach(item => {
+                const date = new Date(item.timestamp);
+                const formattedDate = date.toLocaleDateString();
+                const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                // Format suggestions to handle commas and quotes properly
+                let suggestions = item.suggestions || '';
+                if (suggestions.includes('"') || suggestions.includes(',') || suggestions.includes('\n')) {
+                    suggestions = '"' + suggestions.replace(/"/g, '""') + '"';
+                }
+                
+                const row = [
+                    formattedDate,
+                    formattedTime,
+                    item.helpfulness || '',
+                    item.usability || '',
+                    item.quality || '',
+                    item.performance || '',
+                    suggestions
+                ];
+                
+                csvContent += row.join(',') + '\n';
+            });
+            
+            // Create a download link
+            const encodedUri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent);
+            const link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', 'studycap_feedback_' + new Date().toISOString().split('T')[0] + '.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        // For demo purposes - create sample data
+        function createSampleData() {
+            const sampleData = [
+                {
+                    timestamp: '2023-05-15T14:30:00Z',
+                    helpfulness: '5',
+                    usability: '4',
+                    quality: '5',
+                    performance: '4',
+                    suggestions: 'Great tool! I would love to see integration with Google Classroom.'
+                },
+                {
+                    timestamp: '2023-05-14T09:15:00Z',
+                    helpfulness: '4',
+                    usability: '5',
+                    quality: '4',
+                    performance: '3',
+                    suggestions: 'The summaries are very helpful but sometimes it takes a little too long to generate.'
+                },
+                {
+                    timestamp: '2023-05-13T18:45:00Z',
+                    helpfulness: '3',
+                    usability: '3',
+                    quality: '4',
+                    performance: '4',
+                    suggestions: 'Would be nice to have a way to save and organize multiple summaries.'
+                }
+            ];
+            
+            allFeedbackData = sampleData;
+            sortFeedbackData();
+            updateStats(sampleData);
+            renderFeedbackTable();
+            document.getElementById('emptyState').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 

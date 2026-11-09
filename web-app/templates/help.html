@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block title %}StudyCap - Help{% endblock %}
+
+{% block styles %}
+<style>
+.help-hero { padding: 160px 0 20px; text-align: center; }
+.help-title { font-size: 3rem; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.help-container { max-width: 980px; margin: 30px auto 80px; padding: 0 20px; }
+.card { background: #fff; border-radius: var(--border-radius, 14px); box-shadow: var(--shadow, 0 10px 30px rgba(0,0,0,0.08)); padding: 28px; margin-bottom: 22px; }
+.steps { counter-reset: step; display: grid; gap: 14px; }
+.step { display: flex; gap: 14px; align-items: flex-start; }
+.step::before { counter-increment: step; content: counter(step); flex: 0 0 36px; height: 36px; line-height: 36px; text-align: center; border-radius: 50%; background: linear-gradient(135deg, #6a3de8, #34c3db); color: #fff; font-weight: 700; }
+.note { background: #f7f9ff; border: 1px solid rgba(106,61,232,0.12); border-radius: 10px; padding: 14px 16px; }
+.contact { text-align: center; margin-top: 24px; font-weight: 600; }
+.compat { background: #fff7e6; border: 1px solid #ffe0a3; }
+@media (max-width: 768px){ .help-title{font-size:2.2rem;} .help-hero{padding:120px 0 10px;} }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="help-hero">
+  <div class="container">
+    <h1 class="help-title">Help & Getting Started</h1>
+    <p>Follow these steps for the best StudyCap experience.</p>
+  </div>
+  </section>
+
+<section class="help-container">
+  <div class="card">
+    <h2>Before you start</h2>
+    <div class="note compat">
+      Please make sure StudyCap is compatible with your university's platform before purchasing. If you are unsure, email <strong>contact@study-cap.com</strong> and we will confirm or work with you to add compatibility.
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Generate a Summary (Panopto)</h2>
+    <div class="steps">
+      <div class="step"><div>
+        <strong>Open a lecture in Panopto.</strong> Ensure you are on the actual lecture page (video visible).
+      </div></div>
+      <div class="step"><div>
+        <strong>Open the StudyCap extension.</strong> Log in if prompted.
+      </div></div>
+      <div class="step"><div>
+        <strong>Click “Generate Summary”.</strong> A progress message will appear.
+        <div class="note" style="margin-top:8px">Do not close the tab, navigate away, or click other buttons while the summary is generating.</div>
+      </div></div>
+      <div class="step"><div>
+        <strong>Wait for completion.</strong> When finished, you’ll see the summary and can save it to your Lecture Database.
+      </div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Tips</h2>
+    <ul>
+      <li>Keep the lecture tab active during generation for the fastest results.</li>
+      <li>If something fails, refresh the lecture page and try again.</li>
+    </ul>
+  </div>
+
+  <div class="card contact">
+    Have questions or need your platform supported? Contact <a href="mailto:contact@study-cap.com">contact@study-cap.com</a>.
+  </div>
+</section>
+{% endblock %}
+
+

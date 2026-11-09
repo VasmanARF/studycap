@@ -1,0 +1,1604 @@
+{% extends "layout.html" %}
+
+{% block title %}Unlock your lectures. Unlock your grades. - StudyCap{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+.upgrade-page {
+    padding-top: 140px; /* Account for fixed header */
+            min-height: 100vh;
+    background: linear-gradient(135deg, rgba(106, 61, 232, 0.03), rgba(52, 195, 219, 0.03));
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Hero Section */
+.upgrade-hero {
+    padding: 80px 0 60px;
+            text-align: center;
+    position: relative;
+}
+
+.upgrade-hero::before {
+    content: '';
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    top: -25%;
+    left: -25%;
+    background: radial-gradient(circle, rgba(106, 61, 232, 0.08) 0%, rgba(255,255,255,0) 70%);
+    z-index: -1;
+}
+
+.hero-tag {
+            display: inline-block;
+    background: linear-gradient(45deg, var(--primary-color), var(--tertiary-color));
+            color: white;
+    padding: 8px 20px;
+    border-radius: 25px;
+            font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(106, 61, 232, 0.3);
+}
+
+.hero-title {
+    font-size: 4.2rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 25px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-family: 'Outfit', sans-serif;
+}
+
+.hero-subtitle {
+    font-size: 1.4rem;
+    color: #666;
+    margin-bottom: 40px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+}
+
+.premium-flag {
+    display: inline-block;
+    background: linear-gradient(45deg, #ffd32a, #f39c12);
+    color: #ffffff;
+    padding: 6px 16px;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    box-shadow: 0 8px 24px rgba(243, 156, 18, 0.35);
+}
+
+/* Premium banner callout */
+.premium-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px;
+    border-radius: 14px;
+    background: linear-gradient(90deg, #f59e0b, #ec4899);
+    color: #ffffff;
+    box-shadow: 0 12px 28px rgba(236, 72, 153, 0.35);
+    border: 2px solid rgba(255, 255, 255, 0.65);
+    margin: 0 auto 16px auto;
+    max-width: 900px;
+}
+
+.premium-banner-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.25);
+    flex-shrink: 0;
+}
+
+.premium-banner-text {
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+.premium-banner-cta {
+    background: #ffffff;
+    color: #111111;
+    text-decoration: none;
+    font-weight: 800;
+    padding: 10px 16px;
+    border-radius: 9999px;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    white-space: nowrap;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+    border: 2px solid rgba(255,255,255,0.9);
+    background-clip: padding-box;
+}
+
+.premium-banner-cta:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24);
+}
+
+.premium-banner-cta:active {
+    transform: translateY(-1px) scale(0.99);
+}
+
+@media (max-width: 768px) {
+    .premium-banner {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: left;
+        gap: 10px;
+    }
+}
+
+/* Gate modal that appears first-time */
+.gate-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1100;
+    align-items: center;
+    justify-content: center;
+}
+
+.gate-dialog {
+    width: 92%;
+    max-width: 560px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    padding: 26px 24px;
+    text-align: center;
+    transform: scale(1);
+    opacity: 1;
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), opacity 300ms ease;
+}
+
+.gate-dialog h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.25rem;
+    color: #111;
+}
+
+.gate-dialog p {
+    margin: 0 0 18px 0;
+    color: #555;
+}
+
+.gate-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.gate-btn {
+    display: inline-block;
+    border: 0;
+    cursor: pointer;
+    font-weight: 700;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-family: inherit;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.gate-dialog, .gate-actions, .gate-btn, .gate-dialog h3, .gate-dialog p {
+    font-family: inherit;
+}
+
+.gate-btn-primary {
+    background: #ffffff;
+    color: #111111;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.gate-btn-upgrade {
+    background: linear-gradient(90deg, #f59e0b, #ec4899);
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(236, 72, 153, 0.35);
+}
+
+.gate-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+}
+
+.gate-btn:active {
+    transform: translateY(-1px) scale(0.99);
+}
+
+.shrink-out {
+    transform: scale(0.86) translateY(-6px);
+    opacity: 0;
+}
+
+/* Hide banner until acknowledged */
+.gate-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+}
+
+.primary-cta {
+            display: inline-block;
+    padding: 18px 40px;
+    background: linear-gradient(45deg, var(--primary-color), var(--tertiary-color));
+            color: white;
+            border: none;
+    border-radius: 35px;
+    font-size: 1.3rem;
+    font-weight: 700;
+            text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+    margin: 20px 10px;
+    box-shadow: 0 8px 25px rgba(106, 61, 232, 0.4);
+            position: relative;
+            overflow: hidden;
+}
+
+.primary-cta:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(106, 61, 232, 0.6);
+}
+
+.primary-cta::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
+            transition: all 0.6s;
+        }
+
+.primary-cta:hover::before {
+    left: 100%;
+}
+
+.trust-strip {
+    margin-top: 30px;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+/* Interactive Dashboard */
+.interactive-dashboard {
+    position: relative;
+    max-width: 900px;
+    margin: 50px auto 40px;
+    border-radius: 15px;
+    overflow: visible;
+    font-family: 'Outfit', sans-serif;
+}
+
+.dashboard-image {
+    display: block;
+    transition: all 0.5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    margin: 0 auto;
+    border-radius: 15px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    transform-style: preserve-3d;
+}
+
+/* Specific image sizing */
+.dashboard-image[data-view="dashboard"] {
+    width: 75%;
+}
+
+.dashboard-image[data-view="lectures"] {
+    width: 40%;
+    margin: 0 auto;
+}
+
+.dashboard-image[data-view="summary"] {
+    width: 70%;
+}
+
+.dashboard-image[data-view="quiz"] {
+    width: 75%;
+}
+
+.dashboard-image[data-view="chat"] {
+    width: 100%;
+}
+
+.dashboard-image[data-view="subscription"] {
+    width: 85%;
+}
+
+.dashboard-image[data-view="download"] {
+    width: 85%;
+}
+
+.dashboard-image.active {
+    opacity: 1;
+    position: relative;
+    display: block;
+}
+
+.dashboard-image.active:hover {
+    filter: brightness(1.05);
+}
+
+/* Feature Hotspots */
+.feature-hotspots {
+            position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+            opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.feature-hotspots.active {
+                opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+.feature-hotspot {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+}
+
+/* Hotspot positions */
+.feature-hotspots[data-view="dashboard"] #dashboard-hotspot-1 {
+    top: 35%;
+    left: 48%;
+}
+
+.feature-hotspots[data-view="dashboard"] #dashboard-hotspot-2 {
+    top: 41.5%;
+    left: 29%;
+}
+
+.feature-hotspots[data-view="dashboard"] #dashboard-hotspot-3 {
+    top: 65%;
+    right: 25%;
+}
+
+.feature-hotspots[data-view="lectures"] #lectures-hotspot-1 {
+    top: 40%;
+    left: 49%;
+}
+
+.feature-hotspots[data-view="lectures"] #lectures-hotspot-2 {
+    top: 25%;
+    right: 35%;
+}
+
+.feature-hotspots[data-view="summary"] #summary-hotspot-1 {
+    top: 20%;
+    left: 48%;
+}
+
+.feature-hotspots[data-view="summary"] #summary-hotspot-2 {
+    top: 55%;
+    left: 35%;
+}
+
+.feature-hotspots[data-view="quiz"] #quiz-hotspot-1 {
+    top: 10%;
+    left: 55%;
+}
+
+.feature-hotspots[data-view="quiz"] #quiz-hotspot-2 {
+    top: 43%;
+    left: 45%;
+}
+
+.feature-hotspots[data-view="chat"] #chat-hotspot-1 {
+    top: 5%;
+    left: 25%;
+}
+
+.feature-hotspots[data-view="subscription"] #subscription-hotspot-1 {
+    top: 32%;
+    left: 25%;
+}
+
+.feature-hotspots[data-view="subscription"] #subscription-hotspot-2 {
+    top: 45%;
+    right: 30%;
+}
+
+.feature-hotspots[data-view="download"] #download-hotspot-1 {
+    top: 40%;
+    left: 49.7%;
+}
+
+.feature-hotspots[data-view="download"] #download-hotspot-2 {
+    top: 60%;
+    left: 47%;
+}
+
+.hotspot-dot {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background: linear-gradient(135deg, #6a3de8, #34c3db);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 2s infinite;
+    box-shadow: 0 0 15px rgba(106, 61, 232, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.hotspot-dot::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(135deg, #6a3de8, #34c3db);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0.6;
+    transform: scale(1);
+    animation: ripple 2s infinite;
+}
+
+.hotspot-dot::after {
+    content: '';
+    position: absolute;
+    width: 40%;
+    height: 40%;
+    top: 30%;
+    left: 30%;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.9;
+    transition: all 0.3s ease;
+}
+
+.feature-hotspot:hover .hotspot-dot {
+    transform: translate(-50%, -50%) scale(1.2);
+    box-shadow: 0 0 25px rgba(106, 61, 232, 0.8);
+}
+
+.feature-hotspot:hover .hotspot-dot::after {
+    opacity: 1;
+    transform: scale(1.2);
+        }
+
+        @keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    70% {
+        transform: translate(-50%, -50%) scale(1.3);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes ripple {
+            0% {
+                transform: scale(1);
+        opacity: 0.6;
+            }
+            50% {
+        transform: scale(1.8);
+        opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+        opacity: 0;
+    }
+}
+
+.hotspot-tooltip {
+    position: absolute;
+    background: white;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.18);
+    width: 240px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-family: 'Outfit', sans-serif;
+    z-index: 20;
+    border: 1px solid rgba(106, 61, 232, 0.1);
+    left: 50%;
+    bottom: calc(100% + 15px);
+    transform: translateX(-50%) translateY(10px);
+    pointer-events: none;
+}
+
+.feature-hotspot:hover .hotspot-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+
+.hotspot-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    margin-left: -10px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-right: 1px solid rgba(106, 61, 232, 0.1);
+    border-bottom: 1px solid rgba(106, 61, 232, 0.1);
+    transform: rotate(45deg);
+}
+
+.hotspot-tooltip h4 {
+    margin: 0 0 8px;
+    color: #6a3de8;
+    font-size: 1.1rem;
+    font-family: 'Outfit', sans-serif;
+}
+
+.hotspot-tooltip p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #555;
+    font-family: 'Outfit', sans-serif;
+}
+
+.dashboard-tabs {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    gap: 10px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 15;
+}
+
+.tab-button {
+    background: white;
+    border: 2px solid transparent;
+    border-radius: 30px;
+    padding: 8px 18px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #555;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    font-family: 'Outfit', sans-serif;
+}
+
+.tab-button:hover {
+    color: #6a3de8;
+    box-shadow: 0 5px 15px rgba(106, 61, 232, 0.15);
+}
+
+.tab-button.active {
+    background: linear-gradient(135deg, #6a3de8, #34c3db);
+    color: white;
+    border-color: white;
+}
+
+.dashboard-description {
+    text-align: center;
+    max-width: 700px;
+    margin: 20px auto 0;
+    color: #666;
+    font-size: 1.1rem;
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Comparison Section */
+.comparison-section {
+    padding: 80px 0;
+    background: white;
+    margin: 60px 0;
+    text-align: center;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    max-width: 1000px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.comparison-side {
+    padding: 40px;
+    border-radius: 20px;
+    position: relative;
+}
+
+.free-side {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 2px solid #dee2e6;
+}
+
+.premium-side {
+    background: linear-gradient(135deg, rgba(106, 61, 232, 0.05), rgba(52, 195, 219, 0.05));
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 10px 30px rgba(106, 61, 232, 0.1);
+}
+
+.premium-badge {
+    position: absolute;
+    top: -15px;
+    right: 20px;
+    background: var(--gradient);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.comparison-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-family: 'Outfit', sans-serif;
+}
+
+.free-side .comparison-title {
+    color: #495057;
+}
+
+.premium-side .comparison-title {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.comparison-price {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #666;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    color: #555;
+}
+
+.feature-icon {
+    margin-right: 12px;
+    font-size: 1.2rem;
+}
+
+.free-side .feature-icon {
+    color: #28a745;
+}
+
+.premium-side .feature-icon {
+    color: var(--primary-color);
+}
+
+.feature-disabled {
+    color: #ccc !important;
+}
+
+.feature-disabled .feature-icon {
+    color: #ccc !important;
+}
+
+.upgrade-cta {
+    margin-top: 30px;
+    display: block;
+    text-align: center;
+}
+
+/* Social Proof Section */
+.social-proof {
+    padding: 40px 0 80px 0;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-family: 'Outfit', sans-serif;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--gradient);
+    border-radius: 2px;
+}
+
+.before-after {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 30px;
+    max-width: 800px;
+    margin: 50px auto;
+    align-items: center;
+}
+
+.before-after-item {
+    text-align: center;
+    padding: 30px;
+    border-radius: 15px;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.before-item {
+    background: linear-gradient(135deg, #ffebee, #ffcdd2);
+}
+
+.after-item {
+    background: linear-gradient(135deg, rgba(106, 61, 232, 0.05), rgba(52, 195, 219, 0.05));
+}
+
+.arrow {
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+.testimonial-carousel {
+    display: flex;
+    gap: 30px;
+    margin: 50px 0;
+    overflow-x: auto;
+    padding: 20px 0;
+}
+
+.testimonial-card {
+    min-width: 350px;
+    padding: 30px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.testimonial-quote {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    color: #555;
+}
+
+.testimonial-author {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+
+/* Sticky Bar */
+.sticky-upgrade-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 15px 20px;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    border-top: 3px solid var(--primary-color);
+}
+
+.sticky-upgrade-bar.visible {
+    transform: translateY(0);
+}
+
+.sticky-bar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.sticky-bar-text {
+    flex: 1;
+}
+
+.sticky-bar-title {
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.sticky-bar-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.sticky-bar-cta {
+    padding: 12px 25px;
+    background: var(--gradient);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.sticky-bar-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(106, 61, 232, 0.3);
+}
+
+/* FAQ Section */
+.faq-section {
+    padding: 80px 0;
+    background: white;
+    text-align: center;
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.faq-item {
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.faq-question {
+    padding: 20px;
+    background: #f8f9fa;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.faq-question:hover {
+    background: rgba(106, 61, 232, 0.05);
+}
+
+.faq-answer {
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.faq-item.open .faq-answer {
+    padding: 20px;
+    max-height: 200px;
+    opacity: 1;
+    visibility: visible;
+}
+
+.faq-toggle {
+    transition: transform 0.3s ease;
+}
+
+.faq-item.open .faq-toggle {
+    transform: rotate(180deg);
+}
+
+/* Final CTA Section */
+.final-cta {
+    padding: 100px 0;
+    text-align: center;
+    background: linear-gradient(135deg, var(--primary-color), var(--tertiary-color));
+    color: white;
+}
+
+.final-cta-title {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    font-family: 'Outfit', sans-serif;
+}
+
+.final-cta-subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    opacity: 0.9;
+}
+
+.final-cta-button {
+    display: inline-block;
+    padding: 20px 50px;
+    background: white;
+    color: var(--primary-color);
+    border: none;
+    border-radius: 35px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.final-cta-button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.guarantee-text {
+    font-size: 0.9rem;
+    margin-top: 20px;
+    opacity: 0.8;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .upgrade-page {
+        padding-top: 100px;
+    }
+    
+    .hero-title {
+        font-size: 2.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .comparison-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .before-after {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .arrow {
+        transform: rotate(90deg);
+    }
+    
+    .testimonial-carousel {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .testimonial-card {
+        min-width: auto;
+        width: 100%;
+        max-width: 400px;
+    }
+    
+    .sticky-bar-content {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .final-cta-title {
+        font-size: 2.2rem;
+    }
+    
+    .interactive-dashboard {
+        max-width: 100%;
+    }
+    
+    .dashboard-image {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2.2rem;
+    }
+    
+    .primary-cta {
+        font-size: 1.1rem;
+        padding: 15px 30px;
+    }
+    
+    .comparison-side {
+        padding: 25px;
+    }
+    
+}
+
+/* Animation Classes */
+.animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.animate.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.animate.delay-1 {
+    transition-delay: 0.2s;
+}
+
+.animate.delay-2 {
+    transition-delay: 0.4s;
+}
+
+.animate.delay-3 {
+    transition-delay: 0.6s;
+}
+
+.scale-in {
+    transform: scale(0.9);
+}
+
+.scale-in.active {
+    transform: scale(1);
+}
+
+.slide-left {
+    transform: translateX(-50px);
+}
+
+.slide-left.active {
+    transform: translateX(0);
+}
+
+.slide-right {
+    transform: translateX(50px);
+}
+
+.slide-right.active {
+    transform: translateX(0);
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<!-- Background animation circles -->
+<div class="bg-animation">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<div class="upgrade-page">
+    <!-- Hero Section -->
+    <section class="upgrade-hero">
+    <div class="container">
+            <!-- First time modal gate -->
+            <div class="gate-modal" id="gateModal" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+                <div class="gate-dialog" id="gateDialog">
+                    <div class="premium-banner-icon" aria-hidden="true">★</div>
+                    <h3 id="gateTitle">Student plan required</h3>
+                    <p>This feature is only available on the Student plan. Continue to preview the benefits or upgrade now.</p>
+                    <div class="gate-actions">
+                        <button class="gate-btn gate-btn-primary" id="gateOkBtn">OK, got it</button>
+                        <a href="/pricing" class="gate-btn gate-btn-upgrade" data-analytics="upgrade_hero_cta_clicked">Upgrade to Student</a>
+                    </div>
+                </div>
+            </div>
+            <div class="premium-banner animate scale-in gate-hidden" id="premiumBanner">
+                <div class="premium-banner-icon">★</div>
+                <div class="premium-banner-text">This feature is only available on the Student plan.</div>
+                <a href="/pricing" class="premium-banner-cta" data-analytics="upgrade_hero_cta_clicked">Upgrade to Student</a>
+            </div>
+            <h1 class="hero-title animate scale-in delay-1">Unlock your lectures. Unlock your grades.</h1>
+            <p class="hero-subtitle animate scale-in delay-2">Turn hours of recordings into clean summaries, smart timestamps, and instant quizzes—so you can revise faster and remember more.</p>
+            
+            <!-- Interactive Dashboard Preview -->
+            <div class="interactive-dashboard animate scale-in delay-3">
+                <img src="{{ url_for('static', filename='media/UIdashboard.png') }}" alt="StudyCap Dashboard" class="dashboard-image active" data-view="dashboard">
+                <img src="{{ url_for('static', filename='media/uifullpdf.png') }}" alt="Lecture PDF View" class="dashboard-image" data-view="lectures">
+                <img src="{{ url_for('static', filename='media/lecturesummarybusiness.png') }}" alt="Lecture Summary" class="dashboard-image" data-view="summary">
+                <img src="{{ url_for('static', filename='media/quizquestions.png') }}" alt="Quiz Questions" class="dashboard-image" data-view="quiz">
+                <img src="{{ url_for('static', filename='media/chatwithstudycap.png') }}" alt="Chat with StudyCap" class="dashboard-image" data-view="chat">
+                <img src="{{ url_for('static', filename='media/SubscriptionManagement.png') }}" alt="Subscription Management" class="dashboard-image" data-view="subscription">
+                <img src="{{ url_for('static', filename='media/downloadsummary.png') }}" alt="Download Summary" class="dashboard-image" data-view="download">
+                
+                <!-- Dashboard View Hotspots -->
+                <div class="feature-hotspots active" data-view="dashboard">
+                    <div class="feature-hotspot" id="dashboard-hotspot-1">
+                        <div class="hotspot-dot"></div>
+                        <div class="hotspot-tooltip">
+                            <h4>Study Analytics</h4>
+                            <p>Track your study time and lecture progress at a glance</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-hotspot" id="dashboard-hotspot-2">
+                        <div class="hotspot-dot"></div>
+                        <div class="hotspot-tooltip">
+                            <h4>Lecture Management</h4>
+                            <p>Organize and access all your lecture notes in one place</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-hotspot" id="dashboard-hotspot-3">
+                        <div class="hotspot-dot"></div>
+                        <div class="hotspot-tooltip">
+                            <h4>Quick Actions</h4>
+                            <p>Edit, delete, or create new notes with a single click</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Lecture PDF View Hotspots -->
+                <div class="feature-hotspots" data-view="lectures">
+                    <div class="feature-hotspot" id="lectures-hotspot-1">
+                        <div class="hotspot-dot"></div>
+                        <div class="hotspot-tooltip">
+                            <h4>Upload Notes</h4>
+                            <p>Easily upload your own lecture notes to enhance your summaries</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-hotspot" id="lectures-hotspot-2">
+                        <div class="hotspot-dot"></div>
+                        <div class="hotspot-tooltip">
+                            <h4>Usage Tracking</h4>
+                            <p>Monitor your daily usage and remaining credits</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Summary View Hotspots -->
+                <div class="feature-hotspots" data-view="summary">
+                    <div class="feature-hotspot" id="summary-hotspot-1">
+                        <div class="hotspot-dot"></div>
+                        <div class="hotspot-tooltip">
+                            <h4>Comprehensive Summaries</h4>
+                            <p>Get detailed, well-structured summaries of your lecture content</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-hotspot" id="summary-hotspot-2">
+                        <div class="hotspot-dot"></div>
+                        <div class="hotspot-tooltip">
+                            <h4>Key Components</h4>
+                            <p>Important concepts are automatically highlighted and organized</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quiz View Hotspots -->
+                <div class="feature-hotspots" data-view="quiz">
+                    <div class="feature-hotspot" id="quiz-hotspot-1">
+                        <div class="hotspot-dot"></div>
+                        <div class="hotspot-tooltip">
+                            <h4>Interactive Quizzes</h4>
+                            <p>Test your knowledge with AI-generated questions</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-hotspot" id="quiz-hotspot-2">
+                        <div class="hotspot-dot"></div>
+                        <div class="hotspot-tooltip">
+                            <h4>Detailed Explanations</h4>
+                            <p>Get explanations for each answer to deepen your understanding</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Chat View Hotspots -->
+                <div class="feature-hotspots" data-view="chat">
+                    <div class="feature-hotspot" id="chat-hotspot-1">
+                        <div class="hotspot-dot"></div>
+                        <div class="hotspot-tooltip">
+                            <h4>AI Assistant</h4>
+                            <p>Ask questions about your lecture and get instant answers</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Subscription View Hotspots -->
+                <div class="feature-hotspots" data-view="subscription">
+                    <div class="feature-hotspot" id="subscription-hotspot-1">
+                        <div class="hotspot-dot"></div>
+                        <div class="hotspot-tooltip">
+                            <h4>Plan Management</h4>
+                            <p>View and manage your current subscription plan</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-hotspot" id="subscription-hotspot-2">
+                        <div class="hotspot-dot"></div>
+                        <div class="hotspot-tooltip">
+                            <h4>Benefits Overview</h4>
+                            <p>See all the features included in your membership</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Download View Hotspots -->
+                <div class="feature-hotspots" data-view="download">
+                    <div class="feature-hotspot" id="download-hotspot-1">
+                        <div class="hotspot-dot"></div>
+                        <div class="hotspot-tooltip">
+                            <h4>Export Options</h4>
+                            <p>Download your summaries in different formats</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-hotspot" id="download-hotspot-2">
+                        <div class="hotspot-dot"></div>
+                        <div class="hotspot-tooltip">
+                            <h4>Save for Later</h4>
+                            <p>Save your work for offline studying</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-tabs">
+                    <button class="tab-button" data-view="summary">Lecture Summary</button>
+                    <button class="tab-button" data-view="lectures">Upload Your Own Notes</button>
+                    <button class="tab-button active" data-view="dashboard">Dashboard</button>
+                    <button class="tab-button" data-view="quiz">Lecture Quiz</button>
+                    <button class="tab-button" data-view="chat">Chat with StudyCap</button>
+                    <button class="tab-button" data-view="subscription">Account</button>
+                    <button class="tab-button" data-view="download">Download Summary</button>
+                </div>
+                
+                <div class="dashboard-description">
+                    <p>Experience the intuitive interface designed to optimize your study workflow</p>
+                </div>
+            </div>
+            
+            <a href="/pricing" class="primary-cta animate scale-in delay-3" data-analytics="upgrade_hero_cta_clicked">Upgrade to Student</a>
+            <div class="trust-strip animate scale-in delay-3">Join thousands of students studying smarter</div>
+        </div>
+    </section>
+
+    <!-- Side-by-side Comparison -->
+    <section class="comparison-section">
+        <div class="container">
+            <h2 class="section-title animate scale-in">Free vs Premium</h2>
+            <div class="comparison-grid">
+                <div class="comparison-side free-side animate slide-left delay-1">
+                    <h3 class="comparison-title">Free Plan</h3>
+                    <p class="comparison-price">Limited access • 5 summaries/day</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check feature-icon"></i> Basic lecture summaries</li>
+                        <li><i class="fas fa-check feature-icon"></i> 5 daily summaries</li>
+                        <li class="feature-disabled"><i class="fas fa-times feature-icon"></i> No chat with AI</li>
+                        <li class="feature-disabled"><i class="fas fa-times feature-icon"></i> No quiz generation</li>
+                        <li class="feature-disabled"><i class="fas fa-times feature-icon"></i> No lecture database</li>
+                        <li class="feature-disabled"><i class="fas fa-times feature-icon"></i> No export options</li>
+                        <li class="feature-disabled"><i class="fas fa-times feature-icon"></i> Limited history</li>
+                    </ul>
+                </div>
+                
+                <div class="comparison-side premium-side animate slide-right delay-2">
+                    <div class="premium-badge">MOST POPULAR</div>
+                    <h3 class="comparison-title">Premium</h3>
+                    <p class="comparison-price">Everything in Free, plus unlimited access</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check feature-icon"></i> Unlimited summaries</li>
+                        <li><i class="fas fa-check feature-icon"></i> Advanced AI chat</li>
+                        <li><i class="fas fa-check feature-icon"></i> Auto-quiz generation</li>
+                        <li><i class="fas fa-check feature-icon"></i> Lecture database access</li>
+                        <li><i class="fas fa-check feature-icon"></i> Export to Notion & Docs</li>
+                        <li><i class="fas fa-check feature-icon"></i> Priority processing speed</li>
+                        <li><i class="fas fa-check feature-icon"></i> Unlimited history</li>
+                    </ul>
+                    <a href="/pricing" class="primary-cta upgrade-cta" data-analytics="upgrade_compare_cta_clicked">Upgrade Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof & Outcomes -->
+    <section class="social-proof">
+        <div class="container">
+            <h2 class="section-title animate scale-in">Transform Your Study Experience</h2>
+            
+            <!-- Before/After -->
+            <div class="before-after animate scale-in delay-1">
+                <div class="before-after-item before-item">
+                    <h4>Before StudyCap</h4>
+                    <p><strong>36 hours</strong> of lecture recordings</p>
+                    <p>Scattered notes, missed details, confusion</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="before-after-item after-item">
+                    <h4>After StudyCap</h4>
+                    <p><strong>1 concise study pack</strong></p>
+                    <p>Organized summaries + instant quizzes + AI chat</p>
+                </div>
+            </div>
+            
+            <!-- Testimonials -->
+            <div class="testimonial-carousel animate scale-in delay-2">
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">"StudyCap turned 3-hour pathology lectures into 15-minute summaries that captured everything I needed for exams. Game changer!"</p>
+                    <div class="testimonial-author">- Sarah K., Medicine Student</div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">"The AI chat feature helped me understand complex engineering concepts I missed in class. Like having a tutor 24/7."</p>
+                    <div class="testimonial-author">- Michael T., Engineering Student</div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">"Auto-generated quizzes from my law lectures helped me prep for constitutional law exams with confidence."</p>
+                    <div class="testimonial-author">- Aisha M., Law Student</div>
+                </div>
+            </div>
+            
+            <p style="font-size: 0.9rem; color: #888; margin-top: 20px;">Results may vary. Individual study improvement depends on usage and study habits.</p>
+        </div>
+    </section>
+
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title animate scale-in">Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item animate scale-in delay-1">
+                    <div class="faq-question" onclick="toggleFaq(this)" data-analytics="upgrade_faq_opened">
+                        <span>Can I cancel anytime?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, you can cancel your subscription at any time with no questions asked. You'll continue to have access until the end of your billing period.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item animate scale-in delay-2">
+                    <div class="faq-question" onclick="toggleFaq(this)" data-analytics="upgrade_faq_opened">
+                        <span>Does it work with my lecture platform?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Currently we support Panopto, but we're continuously developing StudyCap to include as many platforms as possible in the future including Echo360, Kaltura, and YouTube.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item animate scale-in delay-3">
+                    <div class="faq-question" onclick="toggleFaq(this)" data-analytics="upgrade_faq_opened">
+                        <span>Will this help right before exams?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Especially right before exams when you have to cram hours of lectures in minutes! StudyCap condenses your entire semester into digestible, searchable summaries perfect for last-minute review.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item animate scale-in delay-4">
+                    <div class="faq-question" onclick="toggleFaq(this)" data-analytics="upgrade_faq_opened">
+                        <span>What about accuracy and privacy?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We use advanced AI models for high accuracy and follow strict privacy policies. Your lecture content is processed securely and never shared. Check our <a href="/privacy-terms">privacy policy</a> for full details.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <div class="container">
+            <h2 class="final-cta-title animate scale-in">Ready to Transform Your Learning?</h2>
+            <p class="final-cta-subtitle animate scale-in delay-1">Join thousands of students who are already studying smarter, not harder</p>
+            <a href="/pricing" class="final-cta-button animate scale-in delay-2" data-analytics="upgrade_final_cta_clicked">Upgrade to Student</a>
+            <p class="guarantee-text animate scale-in delay-3">Cancel anytime • No long-term commitment</p>
+        </div>
+    </section>
+        </div>
+        
+<!-- Sticky Upgrade Bar -->
+<div class="sticky-upgrade-bar" id="stickyBar">
+    <div class="sticky-bar-content">
+        <div class="sticky-bar-text">
+            <div class="sticky-bar-title">Premium Plan - £5/month</div>
+            <div class="sticky-bar-subtitle">Unlimited summaries, AI chat, quizzes & more</div>
+        </div>
+        <a href="/pricing" class="sticky-bar-cta" data-analytics="upgrade_sticky_cta_clicked">Upgrade Now</a>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animation observer
+    const animateElements = document.querySelectorAll('.animate');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    animateElements.forEach(el => {
+        observer.observe(el);
+    });
+
+    // Interactive Dashboard functionality
+    const interactiveDashboard = document.querySelector('.interactive-dashboard');
+    const dashboardImages = document.querySelectorAll('.dashboard-image');
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const featureHotspotSets = document.querySelectorAll('.feature-hotspots');
+    
+    // Tab switching functionality
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const viewType = this.getAttribute('data-view');
+            
+            // Remove active class from all buttons
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            this.classList.add('active');
+            
+            // Hide all images and hotspot sets
+            dashboardImages.forEach(img => img.classList.remove('active'));
+            featureHotspotSets.forEach(set => set.classList.remove('active'));
+            
+            // Show only the selected image and its hotspots
+            const activeImage = document.querySelector(`.dashboard-image[data-view="${viewType}"]`);
+            const activeHotspots = document.querySelector(`.feature-hotspots[data-view="${viewType}"]`);
+            
+            if (activeImage) {
+                activeImage.classList.add('active');
+            }
+            
+            if (activeHotspots) {
+                activeHotspots.classList.add('active');
+            }
+        });
+    });
+    
+    // Handle hotspot interactions
+    const featureHotspots = document.querySelectorAll('.feature-hotspot');
+    
+    featureHotspots.forEach(hotspot => {
+        hotspot.addEventListener('mouseenter', function() {
+            const dot = this.querySelector('.hotspot-dot');
+            if (dot) {
+                dot.style.animation = 'none';
+                setTimeout(() => {
+                    dot.style.animation = 'pulse 2s infinite';
+                }, 10);
+            }
+        });
+    });
+    
+    // Gate modal logic - show once per session until acknowledged
+    const gateModal = document.getElementById('gateModal');
+    const gateDialog = document.getElementById('gateDialog');
+    const gateOkBtn = document.getElementById('gateOkBtn');
+    const premiumBanner = document.getElementById('premiumBanner');
+    
+    try {
+        const acknowledged = sessionStorage.getItem('upgrade_gate_ack');
+        if (!acknowledged) {
+            if (gateModal) {
+                gateModal.style.display = 'flex';
+            }
+        } else {
+            // show the inline banner immediately
+            premiumBanner && premiumBanner.classList.remove('gate-hidden');
+        }
+    } catch (e) {
+        // Fail open: show banner if storage not available
+        premiumBanner && premiumBanner.classList.remove('gate-hidden');
+    }
+    
+    if (gateOkBtn) {
+        gateOkBtn.addEventListener('click', () => {
+            try { sessionStorage.setItem('upgrade_gate_ack', '1'); } catch (e) {}
+            // animate modal shrink
+            if (gateDialog) gateDialog.classList.add('shrink-out');
+            setTimeout(() => {
+                if (gateModal) gateModal.style.display = 'none';
+                // reveal inline banner
+                premiumBanner && premiumBanner.classList.remove('gate-hidden');
+            }, 250);
+        });
+    }
+
+    // Sticky upgrade bar
+    const stickyBar = document.getElementById('stickyBar');
+    const heroSection = document.querySelector('.upgrade-hero');
+    
+    function checkStickyBar() {
+        const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+        if (window.scrollY > heroBottom) {
+            stickyBar.classList.add('visible');
+        } else {
+            stickyBar.classList.remove('visible');
+        }
+    }
+    
+    window.addEventListener('scroll', checkStickyBar);
+    
+});
+
+// FAQ Toggle Function
+function toggleFaq(element) {
+    const faqItem = element.parentElement;
+    const isOpen = faqItem.classList.contains('open');
+    
+    // Close all FAQ items
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.classList.remove('open');
+    });
+    
+    // Open clicked item if it wasn't open
+    if (!isOpen) {
+        faqItem.classList.add('open');
+    }
+}
+
+</script>
+{% endblock %} 

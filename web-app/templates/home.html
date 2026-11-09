@@ -1,0 +1,1055 @@
+{% extends "layout.html" %}
+
+{% block title %}StudyCap - Transform Your Lectures{% endblock %}
+
+{% block styles %}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+.hero {
+    padding: 150px 0 50px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(106, 61, 232, 0.05), rgba(52, 195, 219, 0.05));
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    top: -50%;
+    left: -25%;
+    background: radial-gradient(circle, rgba(106, 61, 232, 0.1) 0%, rgba(255,255,255,0) 70%);
+    z-index: -1;
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.hero-text {
+    flex: 1;
+    max-width: 600px;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    color: #555;
+    margin-bottom: 30px;
+    max-width: 500px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    max-width: 500px;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-image::before {
+    content: '';
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    top: -10%;
+    left: -10%;
+    background: radial-gradient(circle, rgba(106, 61, 232, 0.4) 0%, rgba(52, 195, 219, 0.4) 50%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+    z-index: -1;
+    filter: blur(30px);
+}
+
+.hero-image img {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.features {
+    padding: 80px 0;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 60px;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--gradient);
+    border-radius: 2px;
+}
+
+.feature-cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.feature-card {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: var(--shadow);
+    flex: 1;
+    min-width: 300px;
+    max-width: 380px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    background: none;
+    color: inherit;
+    display: inline-block;
+}
+
+.feature-title {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.feature-description {
+    color: #666;
+}
+
+.cta {
+    background: linear-gradient(135deg, rgba(106, 61, 232, 0.1), rgba(52, 195, 219, 0.1));
+    padding: 80px 0;
+    text-align: center;
+    border-radius: var(--border-radius);
+    margin: 50px 0;
+}
+
+.cta-title {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+    font-family: 'Outfit', sans-serif;
+}
+
+.cta-text {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto 30px;
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Interactive Dashboard Styles */
+.interactive-dashboard {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto 40px;
+    border-radius: 15px;
+    overflow: visible;
+    font-family: 'Outfit', sans-serif;
+}
+
+.dashboard-image {
+    display: block;
+    transition: all 0.5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    margin: 0 auto;
+    border-radius: 15px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    transform-style: preserve-3d;
+}
+
+/* Specific image sizing */
+.dashboard-image[data-view="dashboard"] {
+    width: 75%; /* A bit smaller */
+}
+
+.dashboard-image[data-view="lectures"] {
+    width: 40%; /* Much smaller - reduced from 65% */
+    margin: 0 auto;
+}
+
+.dashboard-image[data-view="summary"] {
+    width: 70%; /* A bit smaller */
+}
+
+.dashboard-image[data-view="quiz"] {
+    width: 75%; /* Smaller */
+}
+
+.dashboard-image[data-view="chat"] {
+    width: 100%; /* Perfect size */
+}
+
+.dashboard-image[data-view="subscription"] {
+    width: 85%; /* A bit smaller */
+}
+
+.dashboard-image[data-view="download"] {
+    width: 85%; /* A bit smaller */
+}
+
+.dashboard-image.active {
+    opacity: 1;
+    position: relative;
+    display: block;
+}
+
+.dashboard-image.active:hover {
+    filter: brightness(1.05);
+}
+
+/* Feature Hotspots */
+.feature-hotspots {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.feature-hotspots.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+.feature-hotspot {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+}
+
+/* Recalibrated hotspot positions */
+.feature-hotspots[data-view="dashboard"] #dashboard-hotspot-1 {
+    top: 35%;
+    left: 48%;
+}
+
+.feature-hotspots[data-view="dashboard"] #dashboard-hotspot-2 {
+    top: 41.5%;
+    left: 29%;
+}
+
+.feature-hotspots[data-view="dashboard"] #dashboard-hotspot-3 {
+    top: 65%;
+    right: 25%;
+}
+
+.feature-hotspots[data-view="lectures"] #lectures-hotspot-1 {
+    top: 40%;
+    left: 49%;
+}
+
+.feature-hotspots[data-view="lectures"] #lectures-hotspot-2 {
+    top: 25%;
+    right: 35%;
+}
+
+.feature-hotspots[data-view="summary"] #summary-hotspot-1 {
+    top: 20%;
+    left: 48%;
+}
+
+.feature-hotspots[data-view="summary"] #summary-hotspot-2 {
+    top: 55%;
+    left: 35%;
+}
+
+.feature-hotspots[data-view="quiz"] #quiz-hotspot-1 {
+    top: 10%;
+    left: 55%;
+}
+
+.feature-hotspots[data-view="quiz"] #quiz-hotspot-2 {
+    top: 43%;
+    left: 45%;
+}
+
+.feature-hotspots[data-view="chat"] #chat-hotspot-1 {
+    top: 5%;
+    left: 25%;
+}
+
+.feature-hotspots[data-view="subscription"] #subscription-hotspot-1 {
+    top: 32%;
+    left: 25%;
+}
+
+.feature-hotspots[data-view="subscription"] #subscription-hotspot-2 {
+    top: 45%;
+    right: 30%;
+}
+
+.feature-hotspots[data-view="download"] #download-hotspot-1 {
+    top: 40%;
+    left: 49.7%;
+}
+
+.feature-hotspots[data-view="download"] #download-hotspot-2 {
+    top: 60%;
+    left: 47%;
+}
+
+.hotspot-dot {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background: linear-gradient(135deg, #6a3de8, #34c3db);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 2s infinite;
+    box-shadow: 0 0 15px rgba(106, 61, 232, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.hotspot-dot::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(135deg, #6a3de8, #34c3db);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0.6;
+    transform: scale(1);
+    animation: ripple 2s infinite;
+}
+
+.hotspot-dot::after {
+    content: '';
+    position: absolute;
+    width: 40%;
+    height: 40%;
+    top: 30%;
+    left: 30%;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.9;
+    transition: all 0.3s ease;
+}
+
+.feature-hotspot:hover .hotspot-dot {
+    transform: translate(-50%, -50%) scale(1.2);
+    box-shadow: 0 0 25px rgba(106, 61, 232, 0.8);
+}
+
+.feature-hotspot:hover .hotspot-dot::after {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+@keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    70% {
+        transform: translate(-50%, -50%) scale(1.3);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+.hotspot-tooltip {
+    position: absolute;
+    background: white;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.18);
+    width: 240px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-family: 'Outfit', sans-serif;
+    z-index: 20;
+    border: 1px solid rgba(106, 61, 232, 0.1);
+    left: 50%;
+    bottom: calc(100% + 15px);
+    transform: translateX(-50%) translateY(10px);
+    pointer-events: none;
+}
+
+.feature-hotspot:hover .hotspot-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+
+.hotspot-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    margin-left: -10px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-right: 1px solid rgba(106, 61, 232, 0.1);
+    border-bottom: 1px solid rgba(106, 61, 232, 0.1);
+    transform: rotate(45deg);
+}
+
+.hotspot-tooltip h4 {
+    margin: 0 0 8px;
+    color: #6a3de8;
+    font-size: 1.1rem;
+    font-family: 'Outfit', sans-serif;
+}
+
+.hotspot-tooltip p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #555;
+    font-family: 'Outfit', sans-serif;
+}
+
+.dashboard-tabs {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    gap: 10px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 15;
+}
+
+.tab-button {
+    background: white;
+    border: 2px solid transparent;
+    border-radius: 30px;
+    padding: 8px 18px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #555;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    font-family: 'Outfit', sans-serif;
+}
+
+.tab-button:hover {
+    color: #6a3de8;
+    box-shadow: 0 5px 15px rgba(106, 61, 232, 0.15);
+}
+
+.tab-button.active {
+    background: linear-gradient(135deg, #6a3de8, #34c3db);
+    color: white;
+    border-color: white;
+}
+
+.dashboard-description {
+    text-align: center;
+    max-width: 700px;
+    margin: 20px auto 0;
+    color: #666;
+    font-size: 1.1rem;
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+    .hero {
+        padding: 120px 0 40px;
+    }
+    
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .hero-text {
+        max-width: 100%;
+    }
+    
+    .hero-subtitle {
+        margin: 0 auto 25px;
+    }
+    
+    .hero-title {
+        font-size: 2.8rem;
+    }
+    
+    .hero-buttons {
+        justify-content: center;
+    }
+    
+    .hero-image {
+        max-width: 90%;
+        margin: 0 auto;
+    }
+    
+    .features {
+        padding: 60px 0;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+        margin-bottom: 40px;
+    }
+    
+    .cta {
+        padding: 60px 0;
+        margin: 30px 0;
+    }
+    
+    .cta-title {
+        font-size: 2.4rem;
+    }
+    
+    .interactive-dashboard {
+        max-width: 100%;
+    }
+    
+    .dashboard-image {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 100px 0 30px;
+    }
+    
+    .hero-title {
+        font-size: 2.2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .hero-buttons .btn {
+        width: 100%;
+    }
+    
+    .feature-cards {
+        gap: 20px;
+    }
+    
+    .feature-card {
+        padding: 25px;
+    }
+}
+
+/* Ensure all text in the CTA and interactive dashboard section uses Outfit font */
+.cta *, 
+.interactive-dashboard *,
+.dashboard-tabs *,
+.dashboard-description *,
+.feature-hotspots *,
+.hotspot-tooltip *,
+.btn {
+    font-family: 'Outfit', sans-serif;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Background animation circles -->
+<div class="bg-animation">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container hero-content">
+        <div class="hero-text">
+            <h1 class="hero-title animate slide-left">StudyCap transforms your Panopto lectures.</h1>
+            <p class="hero-subtitle animate slide-left delay-1">Revise smarter with StudyCap. It quickly summarizes your lectures, creates and answers your questions, highlights key insights, and makes revision effortless.</p>
+            <div class="hero-buttons">
+                <a href="/get-studycap" class="btn">START NOW</a>
+                <a href="/pricing" class="btn btn-outline">View Pricing</a>
+            </div>
+        </div>
+        <div class="hero-image animate slide-right delay-3">
+            <img src="{{ url_for('static', filename='media/UI.png') }}" alt="StudyCap App Preview">
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <h2 class="section-title animate scale-in">How StudyCap Helps You</h2>
+        <div class="feature-cards">
+            <div class="feature-card animate scale-in delay-1">
+                <div class="feature-icon">📊</div>
+                <h3 class="feature-title">Intelligent Summaries</h3>
+                <p class="feature-description">Our AI analyzes your lecture materials and generates concise, comprehensive summaries highlighting the most important concepts.</p>
+            </div>
+            <div class="feature-card animate scale-in delay-2">
+                <div class="feature-icon">🔍</div>
+                <h3 class="feature-title">Interactive Q&A</h3>
+                <p class="feature-description">Ask questions about your lecture content and receive instant, detailed answers to deepen your understanding.</p>
+            </div>
+            <div class="feature-card animate scale-in delay-3">
+                <div class="feature-icon">🧠</div>
+                <h3 class="feature-title">Personalized Study Plans</h3>
+                <p class="feature-description">Generate custom quizzes and study materials based on your learning needs and lecture content.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section with Interactive Dashboard -->
+<section class="cta">
+    <div class="cta-content">
+        <h2 class="cta-title animate scale-in">Ready to transform your learning?</h2>
+        <p class="cta-text animate scale-in delay-1">Join thousands of students who are already studying smarter, not harder. Try StudyCap today.</p>
+        
+        <!-- Interactive Dashboard Preview -->
+        <div class="interactive-dashboard animate scale-in delay-2">
+            <img src="{{ url_for('static', filename='media/UIdashboard.png') }}" alt="StudyCap Dashboard" class="dashboard-image active" data-view="dashboard">
+            <img src="{{ url_for('static', filename='media/uifullpdf.png') }}" alt="Lecture PDF View" class="dashboard-image" data-view="lectures">
+            <img src="{{ url_for('static', filename='media/lecturesummarybusiness.png') }}" alt="Lecture Summary" class="dashboard-image" data-view="summary">
+            <img src="{{ url_for('static', filename='media/quizquestions.png') }}" alt="Quiz Questions" class="dashboard-image" data-view="quiz">
+            <img src="{{ url_for('static', filename='media/chatwithstudycap.png') }}" alt="Chat with StudyCap" class="dashboard-image" data-view="chat">
+            <img src="{{ url_for('static', filename='media/SubscriptionManagement.png') }}" alt="Subscription Management" class="dashboard-image" data-view="subscription">
+            <img src="{{ url_for('static', filename='media/downloadsummary.png') }}" alt="Download Summary" class="dashboard-image" data-view="download">
+            
+            <!-- Dashboard View Hotspots -->
+            <div class="feature-hotspots" data-view="dashboard">
+                <div class="feature-hotspot" id="dashboard-hotspot-1">
+                    <div class="hotspot-dot"></div>
+                    <div class="hotspot-tooltip">
+                        <h4>Study Analytics</h4>
+                        <p>Track your study time and lecture progress at a glance</p>
+                    </div>
+                </div>
+                
+                <div class="feature-hotspot" id="dashboard-hotspot-2">
+                    <div class="hotspot-dot"></div>
+                    <div class="hotspot-tooltip">
+                        <h4>Lecture Management</h4>
+                        <p>Organize and access all your lecture notes in one place</p>
+                    </div>
+                </div>
+                
+                <div class="feature-hotspot" id="dashboard-hotspot-3">
+                    <div class="hotspot-dot"></div>
+                    <div class="hotspot-tooltip">
+                        <h4>Quick Actions</h4>
+                        <p>Edit, delete, or create new notes with a single click</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lecture PDF View Hotspots -->
+            <div class="feature-hotspots" data-view="lectures">
+                <div class="feature-hotspot" id="lectures-hotspot-1">
+                    <div class="hotspot-dot"></div>
+                    <div class="hotspot-tooltip">
+                                            <h4>Upload Notes</h4>
+                    <p>Easily upload your own lecture notes to enhance your summaries</p>
+                    </div>
+                </div>
+                
+                <div class="feature-hotspot" id="lectures-hotspot-2">
+                    <div class="hotspot-dot"></div>
+                    <div class="hotspot-tooltip">
+                        <h4>Usage Tracking</h4>
+                        <p>Monitor your daily usage and remaining credits</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Summary View Hotspots -->
+            <div class="feature-hotspots" data-view="summary">
+                <div class="feature-hotspot" id="summary-hotspot-1">
+                    <div class="hotspot-dot"></div>
+                    <div class="hotspot-tooltip">
+                        <h4>Comprehensive Summaries</h4>
+                        <p>Get detailed, well-structured summaries of your lecture content</p>
+                    </div>
+                </div>
+                
+                <div class="feature-hotspot" id="summary-hotspot-2">
+                    <div class="hotspot-dot"></div>
+                    <div class="hotspot-tooltip">
+                        <h4>Key Components</h4>
+                        <p>Important concepts are automatically highlighted and organized</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quiz View Hotspots -->
+            <div class="feature-hotspots" data-view="quiz">
+                <div class="feature-hotspot" id="quiz-hotspot-1">
+                    <div class="hotspot-dot"></div>
+                    <div class="hotspot-tooltip">
+                        <h4>Interactive Quizzes</h4>
+                        <p>Test your knowledge with AI-generated questions</p>
+                    </div>
+                </div>
+                
+                <div class="feature-hotspot" id="quiz-hotspot-2">
+                    <div class="hotspot-dot"></div>
+                    <div class="hotspot-tooltip">
+                        <h4>Detailed Explanations</h4>
+                        <p>Get explanations for each answer to deepen your understanding</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat View Hotspots -->
+            <div class="feature-hotspots" data-view="chat">
+                <div class="feature-hotspot" id="chat-hotspot-1">
+                    <div class="hotspot-dot"></div>
+                    <div class="hotspot-tooltip">
+                        <h4>AI Assistant</h4>
+                        <p>Ask questions about your lecture and get instant answers</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Subscription View Hotspots -->
+            <div class="feature-hotspots" data-view="subscription">
+                <div class="feature-hotspot" id="subscription-hotspot-1">
+                    <div class="hotspot-dot"></div>
+                    <div class="hotspot-tooltip">
+                        <h4>Plan Management</h4>
+                        <p>View and manage your current subscription plan</p>
+                    </div>
+                </div>
+                
+                <div class="feature-hotspot" id="subscription-hotspot-2">
+                    <div class="hotspot-dot"></div>
+                    <div class="hotspot-tooltip">
+                        <h4>Benefits Overview</h4>
+                        <p>See all the features included in your membership</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Download View Hotspots -->
+            <div class="feature-hotspots" data-view="download">
+                <div class="feature-hotspot" id="download-hotspot-1">
+                    <div class="hotspot-dot"></div>
+                    <div class="hotspot-tooltip">
+                        <h4>Export Options</h4>
+                        <p>Download your summaries in different formats</p>
+                    </div>
+                </div>
+                
+                <div class="feature-hotspot" id="download-hotspot-2">
+                    <div class="hotspot-dot"></div>
+                    <div class="hotspot-tooltip">
+                        <h4>Save for Later</h4>
+                        <p>Save your work for offline studying</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-tabs">
+                <button class="tab-button" data-view="summary">Lecture Summary</button>
+                <button class="tab-button" data-view="lectures">Upload Your Own Notes</button>
+                <button class="tab-button active" data-view="dashboard">Dashboard</button>
+                <button class="tab-button" data-view="quiz">Lecture Quiz</button>
+                <button class="tab-button" data-view="chat">Chat with StudyCap</button>
+                <button class="tab-button" data-view="subscription">Account</button>
+                <button class="tab-button" data-view="download">Download Summary</button>
+            </div>
+            
+            <div class="dashboard-description">
+                <p>Experience the intuitive interface designed to optimize your study workflow</p>
+            </div>
+        </div>
+        
+        <a href="/get-studycap" class="btn animate scale-in delay-3 pulse">GET STUDYCAP</a>
+    </div>
+</section>
+
+<!-- Showcase Section -->
+<section class="showcase">
+    <div class="showcase-container">
+        <h2 class="section-title animate scale-in">Experience the StudyCap Difference NOW</h2>
+        
+        <!-- Example 1: Lecture Summaries -->
+        <div class="showcase-item animate scale-in delay-1">
+            <h3 class="showcase-heading">Transform Lengthy Lectures Into Concise Summaries</h3>
+            <p class="showcase-text">Upload your lecture recordings or notes, and StudyCap will analyze the content to produce comprehensive summaries highlighting the key points, concepts, and examples. Our advanced AI understands academic content across various disciplines, from science and mathematics to humanities and social sciences.</p>
+            <p class="showcase-text"><strong>Example:</strong> A 2-hour lecture on Quantum Mechanics is transformed into a clear, structured 2-page summary with all essential formulas, principles, and experimental evidence highlighted for easy revision.</p>
+        </div>
+        
+        <!-- Example 2: Interactive Q&A -->
+        <div class="showcase-item animate scale-in delay-2">
+            <h3 class="showcase-heading">Get Instant Answers to Your Questions</h3>
+            <p class="showcase-text">Confused about a concept? Simply ask StudyCap any question related to your lecture material. Our AI will provide detailed, accurate answers tailored to your learning context. Think of it as having a dedicated tutor available 24/7.</p>
+            <p class="showcase-text"><strong>Example:</strong> When asked "Explain the difference between mitosis and meiosis in simple terms," StudyCap provides a clear comparison table highlighting key differences, along with visual explanations and memorable analogies to help you understand and remember the concepts.</p>
+        </div>
+        
+        <!-- Example 3: Mind Maps -->
+        <div class="showcase-item animate scale-in delay-3">
+            <h3 class="showcase-heading">Visualize Complex Concepts with AI-Generated Mind Maps</h3>
+            <p class="showcase-text">Our Premium plan includes automatic generation of visual mind maps that connect related concepts in your lectures. This visual approach helps consolidate knowledge and understand relationships between different topics.</p>
+            <p class="showcase-text"><strong>Example:</strong> A lecture series on World War II is transformed into an interactive mind map showing causal relationships between events, key figures, political movements, and economic factors, helping you grasp the broader historical context.</p>
+        </div>
+        
+        <!-- Example 4: Interactive Quizzes -->
+        <div class="showcase-item animate scale-in delay-4">
+            <h3 class="showcase-heading">Reinforce Your Learning with Custom Quizzes</h3>
+            <p class="showcase-text">StudyCap generates personalized quizzes based on your lecture content. These quizzes adapt to your knowledge level, focusing more on areas where you need additional practice.</p>
+            <p class="showcase-text"><strong>Example:</strong> After studying organic chemistry reactions, StudyCap creates a progressive quiz that starts with basic reaction identification and gradually challenges you with predicting products and mechanisms, strengthening your understanding step by step.</p>
+        </div>
+        
+        <!-- Example 5: Lecture Database -->
+        <div class="showcase-item animate scale-in delay-5">
+            <h3 class="showcase-heading">Build Your Personal Knowledge Repository</h3>
+            <p class="showcase-text">All your lecture summaries, notes, and generated content are organized in a searchable database. Easily find and review information across all your courses when preparing for exams or working on assignments.</p>
+            <p class="showcase-text"><strong>Example:</strong> When preparing for your final exams, quickly access all relevant content across multiple courses by searching for key terms like "neural networks" or "climate models," pulling information from different lectures where these concepts appeared.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="features">
+    <div class="container">
+        <h2 class="section-title animate scale-in">What Students Say</h2>
+        <div class="feature-cards">
+            <div class="feature-card animate scale-in delay-1">
+                <div class="feature-icon" style="background: none; color: inherit;">💬</div>
+                <h3 class="feature-title">Sarah from King's College London, Medicine</h3>
+                <p class="feature-description">"StudyCap has honestly changed how I revise. Instead of rewatching my 3-hour pathology lectures, I just read the summaries and they cover everything I actually need. The custom quizzes are also super helpful because they show me exactly what I'm weak on without wasting time."</p>
+            </div>
+            <div class="feature-card animate scale-in delay-2">
+                <div class="feature-icon" style="background: none; color: inherit;">💬</div>
+                <h3 class="feature-title">Michael from Brunel University, Engineering</h3>
+                <p class="feature-description">"StudyCap actually makes my engineering lectures so much easier to revise. The summaries explain the concepts properly, the equations are way clearer than in the slides, and the step-by-step solutions help me understand what's going on instead of just memorising it."</p>
+            </div>
+            <div class="feature-card animate scale-in delay-3">
+                <div class="feature-icon" style="background: none; color: inherit;">💬</div>
+                <h3 class="feature-title">Aisha from University of Bath, Accounting and Law</h3>
+                <p class="feature-description">"Being able to ask questions about parts of my lecture and get clear answers straight away has been so useful. StudyCap honestly made revising for my constitutional law exam way less stressful."</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // UI image tilt effect - only for hero image
+    const heroImage = document.querySelector('.hero-image');
+    const heroImg = heroImage.querySelector('img');
+    let rafId = null;
+    
+    heroImage.addEventListener('mousemove', function(e) {
+        if (rafId) {
+            cancelAnimationFrame(rafId);
+        }
+        
+        rafId = requestAnimationFrame(() => {
+            const rect = heroImage.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Calculate the tilt with smoother values
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const tiltX = (y - centerY) / 15; // Reduced intensity
+            const tiltY = (centerX - x) / 15; // Reduced intensity
+            
+            // Apply the transform
+            heroImg.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+        });
+    });
+    
+    heroImage.addEventListener('mouseleave', function() {
+        if (rafId) {
+            cancelAnimationFrame(rafId);
+        }
+        
+        // Reset transform on mouse leave
+        heroImg.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+    });
+    
+    // Interactive dashboard functionality - WITHOUT tilt effect
+    const interactiveDashboard = document.querySelector('.interactive-dashboard');
+    const dashboardImages = document.querySelectorAll('.dashboard-image');
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const featureHotspotSets = document.querySelectorAll('.feature-hotspots');
+    
+    // Tab switching functionality
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const viewType = this.getAttribute('data-view');
+            
+            // Remove active class from all buttons
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            this.classList.add('active');
+            
+            // Hide all images and hotspot sets
+            dashboardImages.forEach(img => img.classList.remove('active'));
+            featureHotspotSets.forEach(set => set.classList.remove('active'));
+            
+            // Show only the selected image and its hotspots
+            const activeImage = document.querySelector(`.dashboard-image[data-view="${viewType}"]`);
+            const activeHotspots = document.querySelector(`.feature-hotspots[data-view="${viewType}"]`);
+            
+            if (activeImage) {
+                activeImage.classList.add('active');
+            }
+            
+            if (activeHotspots) {
+                activeHotspots.classList.add('active');
+            }
+        });
+    });
+    
+    // Activate first tab by default
+    const defaultView = "dashboard";
+    document.querySelector(`.dashboard-image[data-view="${defaultView}"]`).classList.add('active');
+    document.querySelector(`.feature-hotspots[data-view="${defaultView}"]`).classList.add('active');
+    
+    // Handle hotspot interactions
+    const featureHotspots = document.querySelectorAll('.feature-hotspot');
+    
+    featureHotspots.forEach(hotspot => {
+        hotspot.addEventListener('mouseenter', function() {
+            const dot = this.querySelector('.hotspot-dot');
+            if (dot) {
+                dot.style.animation = 'none';
+                setTimeout(() => {
+                    dot.style.animation = 'pulse 2s infinite';
+                }, 10);
+            }
+        });
+    });
+    
+    // Additional animation observer to activate animations when scrolled into view
+    const animateElements = document.querySelectorAll('.animate');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    animateElements.forEach(el => {
+        observer.observe(el);
+    });
+    
+    // Scroll behavior for navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                window.scrollTo({
+                    top: target.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    // Header scroll effect
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+});
+</script>
+{% endblock %} 

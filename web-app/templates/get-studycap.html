@@ -1,0 +1,747 @@
+{% extends "layout.html" %}
+
+{% block title %}Get StudyCap - Download & Setup Guide{% endblock %}
+
+{% block styles %}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* Remove all hero-related styles that take up space */
+.hero {
+    display: none !important;
+}
+
+/* Add a page title with minimal space */
+.page-title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-top: 150px; /* Use padding-top to ensure proper spacing from header */
+    padding-bottom: 20px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.page-title h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 0;
+    padding: 0;
+    line-height: 1.1;
+}
+
+/* Adjust the steps container to start higher */
+.steps-container {
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+
+.step-card {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 40px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.step-number {
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    width: 80px;
+    height: 80px;
+    background: var(--gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 700;
+    box-shadow: 0 10px 20px rgba(106, 61, 232, 0.3);
+}
+
+.step-content {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.step-text {
+    flex: 1;
+}
+
+.step-title {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    padding-left: 0;
+}
+
+.step-description {
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.step-image {
+    flex: 1;
+    max-width: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.step-image img, .step-image video {
+    width: 100%;
+    display: block;
+    border-radius: 10px;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 992px) {
+    .page-title {
+        padding-top: 130px;
+    }
+    
+    .step-content {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-title {
+        padding-top: 110px;
+    }
+    
+    .page-title h1 {
+        font-size: 1.8rem;
+    }
+    
+    .steps-container {
+        padding-top: 0;
+    }
+    
+    .step-card {
+        padding: 35px 25px 25px;
+        margin-bottom: 25px;
+    }
+    
+    .step-number {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+        top: -10px;
+        left: -10px;
+    }
+    
+    .step-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .step-text {
+        order: 2;
+    }
+    
+    .step-image {
+        order: 1;
+        max-width: 100%;
+    }
+    
+    .step-title {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+    
+    .step-description {
+        font-size: 1rem;
+        text-align: center;
+    }
+    
+    .action-button {
+        display: block;
+        text-align: center;
+        margin: 20px auto 0;
+    }
+    
+    .congrats {
+        padding: 40px 20px;
+        margin: 30px auto;
+    }
+    
+    .congrats-title {
+        font-size: 2.2rem;
+    }
+    
+    .congrats-text {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title h1 {
+        font-size: 1.6rem;
+    }
+    
+    .step-card {
+        padding: 30px 20px 20px;
+    }
+    
+    .step-number {
+        width: 50px;
+        height: 50px;
+        font-size: 1.8rem;
+    }
+    
+    .step-title {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+    
+    .step-description {
+        font-size: 0.95rem;
+    }
+    
+    .congrats-title {
+        font-size: 1.8rem;
+    }
+    
+    .congrats-text {
+        font-size: 1rem;
+    }
+}
+
+.action-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 25px;
+    background: var(--gradient);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 15px rgba(106, 61, 232, 0.2);
+}
+
+.action-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 20px rgba(106, 61, 232, 0.3);
+}
+
+.congrats {
+    position: relative;
+    padding: 50px 20px;
+    background: linear-gradient(135deg, rgba(106, 61, 232, 0.1), rgba(52, 195, 219, 0.1));
+    border-radius: var(--border-radius);
+    margin: 40px auto;
+    max-width: 800px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Keep confetti inside */
+}
+
+.congrats-title {
+    font-size: 2.8rem;
+    margin: 0 auto 20px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+}
+
+.congrats-text {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto 30px;
+    line-height: 1.6;
+}
+
+.congrats-buttons {
+    display: inline-block;
+    margin: 0 auto;
+}
+
+/* Animation classes */
+.animate {
+    opacity: 0;
+    transition: all 0.8s ease;
+}
+
+.animate.active {
+    opacity: 1;
+}
+
+.slide-left {
+    transform: translateX(-50px);
+}
+
+.slide-left.active {
+    transform: translateX(0);
+}
+
+.slide-up {
+    transform: translateY(30px);
+}
+
+.slide-up.active {
+    transform: translateY(0);
+}
+
+.scale-in {
+    transform: scale(0.9);
+}
+
+.scale-in.active {
+    transform: scale(1);
+}
+
+.delay-1 {
+    transition-delay: 0.2s;
+}
+
+.delay-2 {
+    transition-delay: 0.4s;
+}
+
+.delay-3 {
+    transition-delay: 0.6s;
+}
+
+/* Step connector arrows */
+.step-arrow {
+    position: relative;
+    height: 60px;
+    margin: -15px auto 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.step-arrow::before {
+    content: '';
+    width: 25px;
+    height: 25px;
+    border-right: 4px solid;
+    border-bottom: 4px solid;
+    border-image: linear-gradient(135deg, rgba(106, 61, 232, 1), rgba(52, 195, 219, 1)) 1;
+    transform: rotate(45deg) translateY(-15px);
+    animation: arrowBounce 2s infinite;
+    box-shadow: 0 5px 15px rgba(106, 61, 232, 0.3);
+}
+
+@keyframes arrowBounce {
+    0%, 100% {
+        transform: rotate(45deg) translateY(-15px);
+    }
+    50% {
+        transform: rotate(45deg) translateY(0px);
+    }
+}
+
+/* Add the new arrow styles */
+/* Center the arrow on the page */
+.arrow-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
+  /* Add a fixed height to prevent layout shifts */
+  height: 80px;
+  overflow: visible;
+  position: relative;
+}
+
+/* Add this to your CSS */
+.arrow-container:last-of-type {
+    margin-bottom: 10px; /* Adjust this value as needed */
+}
+
+.arrow {
+  width: 50px; /* Increased from 40px to 50px */
+  height: 50px; /* Increased from 40px to 50px */
+  position: relative;
+  /* Remove subtle bounce animation since we're focusing on the chevrons */
+}
+
+/* Remove the entire arrow::before block which creates the diamond shape */
+.arrow::before {
+  display: none; /* Hide the diamond entirely */
+}
+
+/* Animated chevron arrows - fixed to point downward */
+.chevron {
+  position: absolute;
+  width: 40px; /* Increased from 28px to 40px */
+  height: 10px; /* Increased from 8px to 10px */
+  opacity: 0;
+  transform: scale3d(0.5, 0.5, 0.5);
+  animation: move 3s ease-out infinite;
+}
+
+.chevron:first-child {
+  animation-delay: 0s;
+  top: 0;
+}
+
+.chevron:nth-child(2) {
+  animation-delay: 0.5s;
+  top: 11px; /* Adjusted for larger size */
+}
+
+.chevron:nth-child(3) {
+  animation-delay: 1s;
+  top: 22px; /* Adjusted for larger size */
+}
+
+.chevron:before,
+.chevron:after {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 51%;
+  background: linear-gradient(90deg, #0bc4d9, #673ab7);
+}
+
+/* Fixed angles to point downward */
+.chevron:before {
+  left: 0;
+  transform: skew(0deg, 30deg);
+}
+
+.chevron:after {
+  right: 0;
+  transform: skew(0deg, -30deg);
+}
+
+@keyframes move {
+  25% {
+    opacity: 1;
+  }
+  33% {
+    opacity: 1;
+    transform: translateY(10px);
+  }
+  67% {
+    opacity: 1;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(30px) scale3d(0.5, 0.5, 0.5);
+  }
+}
+
+/* Confetti animation for Congratulations section */
+.confetti-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #673ab7;
+  opacity: 0.7;
+  /* Start the animation at a random position in the sequence using negative animation-delay */
+  animation: fall 5s linear infinite;
+  top: -10%; /* Starting just above the container */
+}
+
+.confetti:nth-child(1) {
+  left: 10%;
+  animation-delay: -0.5s;
+  background: linear-gradient(45deg, #0bc4d9, #673ab7);
+  top: -30%;
+}
+
+.confetti:nth-child(2) {
+  left: 20%;
+  animation-delay: -1.5s;
+  background: linear-gradient(45deg, #FF6B6B, #FFD166);
+  top: -80%;
+}
+
+.confetti:nth-child(3) {
+  left: 30%;
+  animation-delay: -2.8s;
+  background: linear-gradient(45deg, #673ab7, #0bc4d9);
+  top: -20%;
+}
+
+.confetti:nth-child(4) {
+  left: 40%;
+  animation-delay: -4.2s;
+  background: linear-gradient(45deg, #FFD166, #06D6A0);
+  top: -50%;
+}
+
+.confetti:nth-child(5) {
+  left: 50%;
+  animation-delay: -1.7s;
+  background: linear-gradient(45deg, #06D6A0, #673ab7);
+  top: -40%;
+}
+
+.confetti:nth-child(6) {
+  left: 60%;
+  animation-delay: -3.5s;
+  background: linear-gradient(45deg, #673ab7, #FF6B6B);
+  top: -90%;
+}
+
+.confetti:nth-child(7) {
+  left: 70%;
+  animation-delay: -0.9s;
+  background: linear-gradient(45deg, #0bc4d9, #FFD166);
+  top: -60%;
+}
+
+.confetti:nth-child(8) {
+  left: 80%;
+  animation-delay: -2.2s;
+  background: linear-gradient(45deg, #FF6B6B, #0bc4d9);
+  top: -30%;
+}
+
+.confetti:nth-child(9) {
+  left: 90%;
+  animation-delay: -4.5s;
+  background: linear-gradient(45deg, #06D6A0, #FFD166);
+  top: -75%;
+}
+
+.confetti:nth-child(10) {
+  left: 25%;
+  animation-delay: -1.2s;
+  background: linear-gradient(45deg, #0bc4d9, #FF6B6B);
+  top: -45%;
+}
+
+.confetti:nth-child(11) {
+  left: 35%;
+  animation-delay: -3.2s;
+  background: linear-gradient(45deg, #FFD166, #673ab7);
+  top: -85%;
+}
+
+.confetti:nth-child(12) {
+  left: 45%;
+  animation-delay: -0.7s;
+  background: linear-gradient(45deg, #673ab7, #06D6A0);
+  top: -25%;
+}
+
+.confetti:nth-child(13) {
+  left: 55%;
+  animation-delay: -2.5s;
+  background: linear-gradient(45deg, #FF6B6B, #0bc4d9);
+  top: -70%;
+}
+
+.confetti:nth-child(14) {
+  left: 65%;
+  animation-delay: -1.9s;
+  background: linear-gradient(45deg, #0bc4d9, #673ab7);
+  top: -55%;
+}
+
+.confetti:nth-child(15) {
+  left: 75%;
+  animation-delay: -3.8s;
+  background: linear-gradient(45deg, #06D6A0, #FF6B6B);
+  top: -35%;
+}
+
+.confetti:nth-child(even) {
+  width: 15px;
+  height: 15px;
+  transform: rotate(45deg);
+}
+
+.confetti:nth-child(4n) {
+  width: 8px;
+  height: 8px;
+  transform: rotate(15deg);
+}
+
+.confetti:nth-child(3n) {
+  width: 12px;
+  height: 12px;
+  transform: rotate(30deg);
+}
+
+@keyframes fall {
+  0% {
+    top: -10%;
+    transform: translateX(0) rotate(0deg);
+    opacity: 0.7;
+  }
+  30% {
+    transform: translateX(30px) rotate(90deg);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateX(-30px) rotate(180deg);
+    opacity: 0.5;
+  }
+  70% {
+    transform: translateX(30px) rotate(270deg);
+    opacity: 0.3;
+  }
+  100% {
+    top: 110%;
+    transform: translateX(-30px) rotate(360deg);
+    opacity: 0;
+  }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Simple page title with minimal height -->
+<div class="page-title container">
+    <h1>Get Started With StudyCap</h1>
+</div>
+
+<!-- Steps Section -->
+<section class="steps-container container">
+    <!-- Step 1 -->
+    <div class="step-card animate slide-up">
+        <div class="step-number">1</div>
+        <div class="step-content">
+            <div class="step-text">
+                <h2 class="step-title">Get StudyCap from the Chrome Web Store</h2>
+                <p class="step-description">StudyCap is available as a Chrome extension. Click the button below to open the Chrome Web Store page in a new tab and add StudyCap to your browser.</p>
+                <a href="https://chromewebstore.google.com/detail/studycap/ghlepfaadliahcodfkjplojekfffmcjp" class="action-button" target="_blank" rel="noopener noreferrer">Add StudyCap to browser</a>
+            </div>
+            <div class="step-image">
+                <img src="{{ url_for('static', filename='media/Tutorialchromeextension.gif') }}" alt="StudyCap Chrome Extension">
+            </div>
+        </div>
+    </div>
+    
+    <!-- New Arrow between steps -->
+    <div class="arrow-container animate slide-up delay-1">
+        <div class="arrow">
+            <div class="chevron"></div>
+            <div class="chevron"></div>
+            <div class="chevron"></div>
+        </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step-card animate slide-up delay-1">
+        <div class="step-number">2</div>
+        <div class="step-content">
+            <div class="step-text">
+                <h2 class="step-title">Sign in to StudyCap</h2>
+                <p class="step-description">Once you've installed the extension, you'll need to sign in to your StudyCap account. If you don't have an account yet, you can create one on our login page.</p>
+                <a href="/login" class="action-button" target="_blank" rel="noopener">Sign Up</a>
+            </div>
+            <div class="step-image">
+                <img src="{{ url_for('static', filename='media/login.png') }}" alt="StudyCap Login">
+            </div>
+        </div>
+    </div>
+    
+    <!-- New Arrow between steps -->
+    <div class="arrow-container animate slide-up delay-2">
+        <div class="arrow">
+            <div class="chevron"></div>
+            <div class="chevron"></div>
+            <div class="chevron"></div>
+        </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step-card animate slide-up delay-2">
+        <div class="step-number">3</div>
+        <div class="step-content">
+            <div class="step-text">
+                <h2 class="step-title">Open the StudyCap Extension</h2>
+                <p class="step-description">After signing in, you can access StudyCap by clicking on the extension icon in your browser's toolbar. You must have the Panopto lecture recording open in your browser to use the extension.</p>
+            </div>
+            <div class="step-image">
+                <img src="{{ url_for('static', filename='media/0425-ezgif.com-video-to-gif-converter.gif') }}" alt="How to Open StudyCap">
+            </div>
+        </div>
+    </div>
+    
+    <!-- New Arrow between steps -->
+    <div class="arrow-container animate slide-up delay-3">
+        <div class="arrow">
+            <div class="chevron"></div>
+            <div class="chevron"></div>
+            <div class="chevron"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Congrats Section with confetti -->
+<section class="congrats">
+    <div class="confetti-container">
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+    </div>
+    <h2 class="congrats-title animate scale-in">Congratulations!</h2>
+    <p class="congrats-text animate scale-in delay-1">You're all set to use StudyCap! Start transforming your lectures into interactive study materials, summaries, and more.</p>
+    <div class="congrats-buttons animate scale-in delay-2">
+        <a href="/pricing" class="action-button">Check Pricing & Upgrade</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const animateElements = document.querySelectorAll('.animate');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    animateElements.forEach(el => {
+        observer.observe(el);
+    });
+});
+</script>
+{% endblock %} 

@@ -1,0 +1,360 @@
+{% extends "layout.html" %}
+
+{% block title %}StudyCap - Privacy and Terms{% endblock %}
+
+{% block styles %}
+<style>
+.privacy-hero {
+    padding: 200px 0 40px;
+    text-align: center;
+}
+
+.privacy-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+}
+
+.privacy-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 700px;
+    margin: 0 auto 50px;
+}
+
+.legal-content {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 50px;
+    box-shadow: var(--shadow);
+    margin-bottom: 50px;
+}
+
+.tab-navigation {
+    display: flex;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 30px;
+}
+
+.tab-button {
+    padding: 15px 30px;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab-button.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+.tab-content h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+.tab-content h3 {
+    margin: 30px 0 15px;
+    font-size: 1.4rem;
+}
+
+.tab-content p {
+    margin-bottom: 20px;
+    line-height: 1.7;
+}
+
+.tab-content ul {
+    margin-bottom: 20px;
+    padding-left: 20px;
+}
+
+.tab-content li {
+    margin-bottom: 10px;
+}
+
+.last-updated {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+    margin-top: 20px;
+}
+
+/* Enhanced mobile-specific styles */
+@media (max-width: 992px) {
+    .privacy-hero {
+        padding: 150px 0 30px;
+    }
+    
+    .privacy-title {
+        font-size: 3rem;
+    }
+    
+    .privacy-subtitle {
+        font-size: 1.1rem;
+        max-width: 90%;
+        margin-bottom: 30px;
+    }
+    
+    .legal-content {
+        padding: 40px 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .privacy-hero {
+        padding: 120px 0 30px;
+    }
+    
+    .privacy-title {
+        font-size: 2.5rem;
+    }
+    
+    .privacy-subtitle {
+        font-size: 1rem;
+        margin-bottom: 25px;
+    }
+    
+    .tab-navigation {
+        flex-direction: column;
+        border-bottom: none;
+        gap: 5px;
+        margin-bottom: 25px;
+    }
+    
+    .tab-button {
+        text-align: center;
+        padding: 12px;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        margin-bottom: 5px;
+    }
+    
+    .tab-button.active {
+        border-color: var(--primary-color);
+        background-color: rgba(106, 61, 232, 0.05);
+    }
+    
+    .legal-content {
+        padding: 25px 20px;
+        margin-bottom: 30px;
+    }
+    
+    .tab-content h2 {
+        font-size: 1.6rem;
+    }
+    
+    .tab-content h3 {
+        font-size: 1.3rem;
+    }
+    
+    .tab-content p, .tab-content li {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .privacy-hero {
+        padding: 100px 0 25px;
+    }
+    
+    .privacy-title {
+        font-size: 2.2rem;
+    }
+    
+    .privacy-subtitle {
+        font-size: 0.95rem;
+    }
+    
+    .tab-button {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+    
+    .tab-content h2 {
+        font-size: 1.4rem;
+    }
+    
+    .tab-content h3 {
+        font-size: 1.2rem;
+    }
+    
+    .tab-content p, .tab-content li {
+        font-size: 0.9rem;
+    }
+    
+    .last-updated {
+        font-size: 0.85rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="privacy-hero">
+    <div class="container">
+        <h1 class="privacy-title animate">Privacy Policy & Terms</h1>
+        <p class="privacy-subtitle animate delay-1">We take your privacy seriously. Please read our policies to understand how we collect, use, and protect your data.</p>
+    </div>
+</section>
+
+<section class="privacy-terms-container">
+    <div class="container">
+        <div class="legal-content animate delay-2">
+            <div class="tab-navigation">
+                <div class="tab-button active" data-tab="privacy">Privacy Policy</div>
+                <div class="tab-button" data-tab="terms">Terms of Service</div>
+                <div class="tab-button" data-tab="cookies">Cookie Policy</div>
+            </div>
+            
+            <div class="tab-content active" id="privacy">
+                <h2>Privacy Policy</h2>
+                <h3>Introduction</h3>
+                <p>StudyCap ("the Tool") aims to make studying more accessible and efficient by helping students summarize, clarify, and review lecture material. By using StudyCap, you agree to comply with these Terms of Service and our Privacy Policy.</p>
+                
+                <h3>Data Processing</h3>
+                <p>When you use StudyCap to generate summaries or quizzes, the AI processes the text you provide solely for the duration of the session. We do not keep or archive your content.</p>
+                
+                <h3>User Data</h3>
+                <p>We may collect minimal user information (e.g., login data) to provide account access and basic tool functionality. We do not sell or share personally identifiable information with third parties.</p>
+                
+                <h3>No Training With Your Content</h3>
+                <p>We do not use or store extracted lecture content to train our AI models. Content you provide is processed in real-time and is not retained in our systems.</p>
+                
+                <h3>Security Measures</h3>
+                <p>We implement reasonable safeguards to protect any data temporarily processed by the Tool. However, no method of transmission or electronic storage is 100% secure, and we cannot guarantee absolute security.</p>
+                
+                <p class="last-updated">Last Updated: April 2025</p>
+            </div>
+            
+            <div class="tab-content" id="terms">
+                <h2>Terms of Service</h2>
+                <h3>Introduction</h3>
+                <p>StudyCap ("the Tool") aims to make studying more accessible and efficient by helping students summarize, clarify, and review lecture material. By using StudyCap, you agree to comply with these Terms of Service and our Privacy Policy.</p>
+                
+                <h3>Scope of Service</h3>
+                <p><strong>Purpose:</strong> StudyCap is designed to complement—rather than replace—existing lecture content. Our features help students grasp complex concepts, create quizzes, and generate study notes from material they already have access to.</p>
+                <p><strong>User Control:</strong> The Tool processes lecture captions (e.g., from lecture recordings) and slides only when the student chooses to upload or extract them. This ensures that you, the student, remain in full control of the content utilized by the Tool.</p>
+                <p><strong>No Content Redistribution:</strong> StudyCap does not share, publish, or otherwise redistribute any extracted text or summaries. All materials remain accessible only to the individual student who has the right to the content in the first place.</p>
+                
+                <h3>Intellectual Property & Copyright</h3>
+                <p><strong>Ownership:</strong> StudyCap does not claim ownership of any lecture materials or copyrighted content processed by the Tool. Any lecture slides, captions, or other resources you provide for AI processing remain your property—or the property of their respective owners.</p>
+                <p><strong>Respect for Copyright:</strong> We acknowledge and respect the intellectual property rights of universities and lecturers. By using StudyCap, you acknowledge that any copyrighted materials processed by the Tool are for personal study and review in accordance with applicable legal and university guidelines.</p>
+                
+                <h3>Student Responsibility</h3>
+                <p><strong>Proper Use:</strong> Students are solely responsible for ensuring that the content they upload or extract is in compliance with their institution's policies and any applicable laws. If your university policy restricts the use of AI tools for study aids, it is your responsibility to adhere to those rules.</p>
+                <p><strong>Academic Integrity:</strong> While StudyCap can significantly assist with learning, students must abide by academic honesty policies. The Tool is intended to support comprehension—not to be used for plagiarism or other misconduct.</p>
+                
+                <h3>Liability & Indemnification</h3>
+                <p><strong>Service "As Is":</strong> StudyCap is provided on an "as is" basis. We make no guarantees that it will meet your requirements or that it will be free of errors.</p>
+                <p><strong>Limitation of Liability:</strong> Under no circumstances will StudyCap be liable for direct, indirect, incidental, or consequential damages resulting from the use or inability to use the Tool.</p>
+                <p><strong>Indemnification:</strong> You agree to indemnify and hold harmless StudyCap and its affiliates from any claims arising from your misuse of lecture content or any violation of these Terms.</p>
+                
+                <h3>Fair Use & Educational Purposes</h3>
+                <p>Our mission is to create a supportive learning environment. StudyCap's features fall under fair use (educational purposes), as the tool simply reprocesses content that students already have legitimate access to. If a university or lecturer wishes to restrict usage of such a tool, they would similarly need to disallow the use of any other AI platform that helps students study—an approach that would impede broader educational progress.</p>
+                
+                <h3>Changes to the Terms</h3>
+                <p>We reserve the right to update or modify these Terms at any time. If material changes are made, we will provide notice through our website or by other means so you can review and accept or reject the revised Terms before continuing to use StudyCap.</p>
+                
+                <h3>Contact Information</h3>
+                <p>For any questions about these Terms or our Privacy Policy, please reach out to us at <a href="mailto:support@studycap.com">support@studycap.com</a>. We are here to ensure that StudyCap continues to serve as a beneficial, secure, and respectful platform for all your study needs.</p>
+                
+                <p>Thank you for choosing StudyCap. We are committed to your educational success and stand firmly behind the responsible, respectful use of AI-driven study tools.</p>
+                
+                <p class="last-updated">Last Updated: April 2025</p>
+            </div>
+            
+            <div class="tab-content" id="cookies">
+                <h2>Cookie Policy</h2>
+                <h3>Our Cookie Approach</h3>
+                <p><strong>StudyCap only uses essential cookies</strong> for authentication and core functionality. However, when you use our app, third-party services may set non-essential cookies that we cannot control.</p>
+                
+                <h3>Essential Cookies (Set by StudyCap)</h3>
+                <p>We only set cookies that are absolutely necessary for our app to function:</p>
+                <ul>
+                    <li><strong>Session Cookies:</strong> To maintain your login status and authentication</li>
+                    <li><strong>Security Cookies:</strong> To protect your account and prevent unauthorized access</li>
+                    <li><strong>Preference Cookies:</strong> To remember your basic app settings</li>
+                </ul>
+                
+                <h3>Third-Party Services That May Set Cookies</h3>
+                <p>When you use StudyCap, these external services may set additional cookies on your device:</p>
+                <ul>
+                    <li><strong>Google OAuth:</strong> For user authentication (may include analytics and tracking cookies)</li>
+                    <li><strong>Google Fonts:</strong> For typography display (may include tracking cookies)</li>
+                    <li><strong>Stripe:</strong> For payment processing (may include analytics and fraud prevention cookies)</li>
+                    <li><strong>External CDNs:</strong> For loading JavaScript libraries and CSS (may include performance cookies)</li>
+                </ul>
+                
+                <h3>Important Notice</h3>
+                <p><strong>We cannot control what cookies these third-party services set.</strong> These external services are necessary for our app to function properly, and they may set their own cookies for analytics, tracking, or other purposes.</p>
+                
+                <p><strong>If you don't like cookies being set by these third-party services, please don't use our app.</strong></p>
+                
+                <h3>Your Choice</h3>
+                <p>By continuing to use StudyCap, you acknowledge that these third-party services may set cookies on your device. We cannot disable these cookies without breaking our app's functionality.</p>
+                
+                <p>If you're concerned about third-party cookies, you can:</p>
+                <ul>
+                    <li>Use browser settings to block third-party cookies</li>
+                    <li>Use privacy-focused browsers or extensions</li>
+                    <li>Choose not to use our app if you don't want these cookies</li>
+                </ul>
+                
+                <h3>Browser Cookie Management</h3>
+                <p>Most web browsers allow you to control cookies through their settings. You can usually find these settings in the "Options" or "Preferences" menu of your browser. You can delete existing cookies, allow or block all cookies, or block cookies from particular sites.</p>
+                
+                <p class="last-updated">Last Updated: April 2025</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta">
+    <div class="container">
+        <h2 class="cta-title animate">Ready to get started?</h2>
+        <p class="cta-text animate delay-1">Sign up now and transform your learning experience.</p>
+        <a href="/login" class="btn animate delay-2">START NOW</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                // Show corresponding content
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+    });
+</script>
+{% endblock %} 

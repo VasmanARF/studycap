@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login - StudyCap</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <!-- Add Outfit font -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PostHog Analytics -->
+    <script>
+        !function(t,e){var o,n,p,r;e.__SV||(window.posthog && window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Rr Mr fi Or Ar ci Tr Cr capture Mi calculateEventProperties Lr register register_once register_for_session unregister unregister_for_session Hr getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Ur jr createPersonProfile zr kr Br opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing Dr debug M Nr getPageViewId captureTraceFeedback captureTraceMetric $r".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+
+        posthog.init('{{ posthog_key }}', {
+            api_host: 'https://us.i.posthog.com',
+            defaults: '2025-05-24',
+            person_profiles: 'identified_only'
+        })
+        
+        // Track page view
+        posthog.capture('$pageview', {
+            page: '/login',
+            page_title: 'Login - StudyCap'
+        });
+    </script>
+    <script defer src="/static/js/posthog-identify.js"></script>
+    
+    <style>
+      :root {
+        --primary: #673ab7;
+        --primary-dark: #5e35b1;
+        --secondary: #00c9b7;
+        --secondary-dark: #00b0a0;
+        --accent: #ec4899;
+        --accent-dark: #d13d82;
+        --gold: #ffc107;
+        --silver: #9e9e9e;
+        --bronze: #cd7f32;
+        --success: #4CAF50;
+        --warning: #ff9800;
+        --danger: #f44336;
+        --light: #f8f9fa;
+        --dark: #2d3748;
+        --gray-100: #f8f9fa;
+        --gray-200: #e9ecef;
+        --gray-300: #dee2e6;
+        --gray-400: #ced4da;
+        --gray-500: #adb5bd;
+        --gray-600: #6c757d;
+        --gray-700: #495057;
+        --gray-800: #343a40;
+        --gray-900: #212529;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Outfit', sans-serif;
+        color: var(--dark);
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4eaec 100%);
+      }
+
+      /* Animated background elements */
+      .bg-animation {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .bg-animation span {
+        position: absolute;
+        display: block;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        border-radius: 50%;
+        opacity: 0.1;
+        animation: float 25s infinite linear;
+      }
+
+      .bg-animation span:nth-child(1) {
+        width: 300px;
+        height: 300px;
+        top: -150px;
+        left: -100px;
+        animation-delay: 0s;
+        animation-duration: 30s;
+      }
+
+      .bg-animation span:nth-child(2) {
+        width: 400px;
+        height: 400px;
+        top: 60%;
+        right: -200px;
+        animation-delay: 5s;
+        animation-duration: 25s;
+        background: linear-gradient(45deg, var(--accent), var(--primary));
+      }
+
+      .bg-animation span:nth-child(3) {
+        width: 250px;
+        height: 250px;
+        bottom: -100px;
+        left: 30%;
+        animation-delay: 10s;
+        animation-duration: 20s;
+        background: linear-gradient(45deg, var(--secondary), var(--gold));
+      }
+
+      .bg-animation span:nth-child(4) {
+        width: 200px;
+        height: 200px;
+        top: 30%;
+        left: 10%;
+        animation-delay: 15s;
+        animation-duration: 18s;
+        background: linear-gradient(45deg, var(--gold), var(--accent));
+        opacity: 0.07;
+      }
+
+      /* Particle Animation */
+      @keyframes float {
+        0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+        25% { transform: translate(100px, 100px) rotate(90deg) scale(1.1); }
+        50% { transform: translate(50px, 200px) rotate(180deg) scale(1); }
+        75% { transform: translate(-50px, 100px) rotate(270deg) scale(0.9); }
+        100% { transform: translate(0, 0) rotate(360deg) scale(1); }
+      }
+
+      .login-container {
+        width: 100%;
+        max-width: 450px;
+        padding: 20px;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 1.5rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+        overflow: hidden;
+        position: relative;
+        padding: 1.5rem;
+      }
+
+      .card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        opacity: 0.05;
+        transform: rotate(45deg);
+        pointer-events: none;
+      }
+
+      .logo-container {
+        text-align: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .logo {
+        margin-bottom: 0.5rem;
+        display: inline-block;
+      }
+
+      .logo img {
+        max-width: 170px;
+        height: auto;
+        margin: 0 auto;
+        display: block;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 0.5rem;
+        border-radius: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+      }
+
+      .tagline {
+        color: var(--gray-600);
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .google-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 0.9rem 0;
+        margin: 1rem 0;
+        background: linear-gradient(45deg, #ffffff, #f8f9ff);
+        color: var(--gray-800);
+        border-radius: 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-decoration: none;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border: 1px solid var(--gray-300);
+        position: relative;
+        overflow: hidden;
+        animation: pulse-light 2s infinite;
+      }
+
+      @keyframes pulse-light {
+        0% { box-shadow: 0 0 0 0 rgba(103, 58, 183, 0.2); }
+        70% { box-shadow: 0 0 0 10px rgba(103, 58, 183, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(103, 58, 183, 0); }
+      }
+
+      .google-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(45deg, #f8f9ff, #ffffff);
+      }
+
+      .google-button img {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+      }
+
+      .google-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          to right,
+          transparent 0%,
+          rgba(255,255,255,0.3) 50%,
+          transparent 100%
+        );
+        transition: left 0.8s ease;
+      }
+
+      .google-button:hover::before {
+        left: 100%;
+      }
+
+      .error-message {
+        background-color: rgba(244, 67, 54, 0.1);
+        color: var(--danger);
+        padding: 0.8rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+        border: 1px solid rgba(244, 67, 54, 0.3);
+      }
+
+      .features-section {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--gray-200);
+      }
+
+      .features-title {
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--gray-700);
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+
+      .feature-card {
+        text-align: center;
+        padding: 0.8rem;
+        border-radius: 1rem;
+        background: rgba(255, 255, 255, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .feature-icon {
+        font-size: 2rem;
+        margin-bottom: 0.8rem;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .feature-title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--gray-800);
+      }
+
+      .feature-description {
+        font-size: 0.9rem;
+        color: var(--gray-600);
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: var(--gray-600);
+      }
+
+      .footer a {
+        color: var(--primary);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer a:hover {
+        color: var(--accent);
+      }
+
+      /* Cookie Notice Popup Styles */
+      .cookie-notice-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(5px);
+      }
+
+      .cookie-notice-popup {
+        background: white;
+        border-radius: 1.5rem;
+        padding: 2rem;
+        max-width: 500px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        position: relative;
+        animation: slideIn 0.3s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-50px) scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .cookie-notice-header {
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .cookie-notice-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+      }
+
+      .cookie-notice-subtitle {
+        color: var(--gray-600);
+        font-size: 1rem;
+      }
+
+      .cookie-notice-content {
+        margin-bottom: 2rem;
+        line-height: 1.6;
+      }
+
+      .cookie-notice-content p {
+        margin-bottom: 1rem;
+        color: var(--gray-700);
+      }
+
+      .cookie-notice-content strong {
+        color: var(--primary);
+      }
+
+      .cookie-vendor-list {
+        background: rgba(103, 58, 183, 0.05);
+        border-radius: 0.8rem;
+        padding: 1rem;
+        margin: 1rem 0;
+        border-left: 4px solid var(--primary);
+      }
+
+      .cookie-vendor-list h4 {
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+      }
+
+      .cookie-vendor-list ul {
+        margin: 0;
+        padding-left: 1.2rem;
+      }
+
+      .cookie-vendor-list li {
+        margin-bottom: 0.3rem;
+        color: var(--gray-700);
+        font-size: 0.9rem;
+      }
+
+      .cookie-notice-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+      }
+
+      .cookie-btn {
+        padding: 0.8rem 2rem;
+        border-radius: 2rem;
+        font-weight: 600;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+      }
+
+      .cookie-btn-primary {
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        color: white;
+        box-shadow: 0 4px 15px rgba(103, 58, 183, 0.3);
+      }
+
+      .cookie-btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(103, 58, 183, 0.4);
+      }
+
+      .cookie-btn-secondary {
+        background: transparent;
+        color: var(--gray-600);
+        border: 2px solid var(--gray-300);
+      }
+
+      .cookie-btn-secondary:hover {
+        background: var(--gray-100);
+        border-color: var(--gray-400);
+      }
+
+      @media (max-width: 576px) {
+        body {
+          padding: 4.7rem 0.5rem 2rem;
+          justify-content: flex-start;
+          align-items: flex-start;
+          min-height: auto;
+        }
+
+        .login-container {
+          padding: 0;
+          max-width: 360px;
+          margin: 0 auto;
+        }
+        
+        .card {
+          padding: 1.25rem;
+          border-radius: 1.25rem;
+        }
+
+        .logo img {
+          max-width: 140px;
+        }
+
+        .tagline {
+          font-size: 1rem;
+        }
+
+        .google-button {
+          padding: 0.75rem 0;
+          font-size: 1rem;
+        }
+        
+        .features-section {
+          margin-top: 0.75rem;
+          padding-top: 0.75rem;
+        }
+
+        .features-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 0.75rem;
+        }
+
+        .feature-card {
+          padding: 0.65rem;
+        }
+
+        .feature-icon {
+          font-size: 1.6rem;
+          margin-bottom: 0.4rem;
+        }
+
+        .feature-title {
+          font-size: 0.9rem;
+          margin-bottom: 0.25rem;
+        }
+
+        .feature-description {
+          font-size: 0.75rem;
+          line-height: 1.2;
+        }
+
+        .cookie-notice-popup {
+          padding: 1.5rem;
+          margin: 1rem;
+        }
+
+        .cookie-notice-buttons {
+          flex-direction: column;
+        }
+
+        .cookie-btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-animation">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="login-container">
+      <div class="card">
+        <div class="logo-container">
+          <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo-dark.png') }}" alt="StudyCap Logo">
+          </div>
+          <div class="tagline">Transform your learning experience</div>
+        </div>
+
+        {% set google_login_url = url_for('google_login', entry='login') %}
+        {% if referral_code %}
+        {% set google_login_url = url_for('google_login', entry='login', ref=referral_code) %}
+        {% endif %}
+        <!-- Google Sign In Button -->
+        <a href="{{ google_login_url }}" class="google-button">
+          <img src="https://www.google.com/favicon.ico" alt="Google">
+          <span>Start Your Learning Journey <i class="fas fa-arrow-right" style="margin-left: 10px; font-size: 0.9rem;"></i></span>
+        </a>
+
+        {% if error %}
+        <div class="error-message">
+          {{ error }}
+        </div>
+        {% endif %}
+
+        <!-- Features Section -->
+        <div class="features-section">
+          <div class="features-title">Why Choose StudyCap?</div>
+          <div class="features-grid">
+            <div class="feature-card">
+              <i class="fas fa-brain feature-icon"></i>
+              <div class="feature-title">Smart Summaries</div>
+              <div class="feature-description">AI-powered lecture summaries</div>
+            </div>
+            <div class="feature-card">
+              <i class="fas fa-bolt feature-icon"></i>
+              <div class="feature-title">Easy Access</div>
+              <div class="feature-description">All your notes in one place</div>
+            </div>
+            <div class="feature-card">
+              <i class="fas fa-graduation-cap feature-icon"></i>
+              <div class="feature-title">Study Tools</div>
+              <div class="feature-description">Flashcards and study guides</div>
+            </div>
+            <div class="feature-card">
+              <i class="fas fa-crown feature-icon"></i>
+              <div class="feature-title">Premium Features</div>
+              <div class="feature-description">Unlock advanced capabilities</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        By continuing, you agree to our 
+        <a href="https://www.study-cap.com/privacy-terms">Terms of Service</a> and 
+        <a href="https://www.study-cap.com/privacy-terms">Privacy Policy</a>
+      </div>
+    </div>
+
+    <!-- Cookie Notice Popup -->
+    <div id="cookieNotice" class="cookie-notice-overlay" style="display: none;">
+      <div class="cookie-notice-popup">
+        <div class="cookie-notice-header">
+          <h2 class="cookie-notice-title">🍪 Cookie Notice</h2>
+          <p class="cookie-notice-subtitle">Essential cookies only, but third-party services may set additional cookies</p>
+        </div>
+        
+        <div class="cookie-notice-content">
+          <p><strong>Our app only uses essential cookies</strong> for authentication and core functionality. However, when you use our app, third-party services may set non-essential cookies.</p>
+          
+          <div class="cookie-vendor-list">
+            <h4>Third-Party Services That May Set Cookies:</h4>
+            <ul>
+              <li><strong>Google OAuth</strong> - For user authentication (may include analytics cookies)</li>
+              <li><strong>Google Fonts</strong> - For typography (may include tracking cookies)</li>
+              <li><strong>Stripe</strong> - For payment processing (may include analytics cookies)</li>
+              <li><strong>External CDNs</strong> - For loading libraries (may include performance cookies)</li>
+            </ul>
+          </div>
+          
+          <p><strong>If you don't like cookies being set by these third-party services, please don't use our app.</strong></p>
+          
+          <p>We cannot control what cookies these external services set, and they are necessary for our app to function properly. By continuing to use StudyCap, you acknowledge that these third-party services may set cookies on your device.</p>
+        </div>
+        
+        <div class="cookie-notice-buttons">
+          <button class="cookie-btn cookie-btn-primary" onclick="acceptCookies()">
+            I Understand, Continue
+          </button>
+          <button class="cookie-btn cookie-btn-secondary" onclick="declineCookies()">
+            Leave Site
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Show cookie notice on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        // Check if user has already seen the cookie notice
+        if (!localStorage.getItem('cookieNoticeSeen')) {
+          document.getElementById('cookieNotice').style.display = 'flex';
+        }
+      });
+
+      function acceptCookies() {
+        localStorage.setItem('cookieNoticeSeen', 'true');
+        document.getElementById('cookieNotice').style.display = 'none';
+      }
+
+      function declineCookies() {
+        // Redirect to home page or close the window
+        window.location.href = '/home';
+      }
+
+      // Close popup when clicking outside
+      document.getElementById('cookieNotice').addEventListener('click', function(e) {
+        if (e.target === this) {
+          declineCookies();
+        }
+      });
+    </script>
+  </body>
+</html>

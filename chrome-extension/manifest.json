@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "StudyCap",
+  "version": "9.0",
+  "description": "Welcome Studycap!",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icons/favicon2.png"
+  },
+  "icons": {
+    "128": "icons/favicon2.png"
+  }
+}

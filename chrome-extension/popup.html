@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>StudyCap</title>
+    <link rel="icon" type="image/png" href="icons/favicon2.png">
+    <link rel="apple-touch-icon" href="icons/favicon2.png">
+    <link rel="shortcut icon" href="icons/favicon2.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+      :root {
+        --primary: #673ab7;
+        --secondary: #00c9b7;
+        --accent: #ec4899;
+      }
+      
+      /* Make html/body transparent with no margins */
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: transparent;
+      }
+
+      /* Size the popup, but keep it transparent */
+      body {
+        width: 300px;
+        font-family: 'Outfit', sans-serif;
+        color: #2d3748;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Animated background elements */
+      body::before,
+      body::after {
+        content: '';
+        position: fixed;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(
+          circle,
+          rgba(103,58,183,0.1) 0%,
+          transparent 60%
+        );
+        filter: blur(40px);
+        z-index: -1;
+        animation: float 20s infinite linear;
+      }
+
+      body::before {
+        top: -100px;
+        left: -100px;
+      }
+
+      body::after {
+        bottom: -100px;
+        right: -100px;
+        background: radial-gradient(
+          circle,
+          rgba(0,201,183,0.1) 0%,
+          transparent 60%
+        );
+        animation-direction: reverse;
+      }
+
+      @keyframes float {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        25% { transform: translate(50px, 50px) rotate(90deg); }
+        50% { transform: translate(0, 100px) rotate(180deg); }
+        75% { transform: translate(-50px, 50px) rotate(270deg); }
+        100% { transform: translate(0, 0) rotate(360deg); }
+      }
+      
+      /* Confirmation popup animations */
+      @keyframes fadeInUpgrade {
+        from { opacity: 0; transform: translate(-50%, -40%); }
+        to { opacity: 1; transform: translate(-50%, -50%); }
+      }
+      
+      @keyframes fadeOutUpgrade {
+        from { opacity: 1; transform: translate(-50%, -50%); }
+        to { opacity: 0; transform: translate(-50%, -60%); }
+      }
+      
+      @keyframes fadeInOverlay {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      
+      @keyframes fadeOutOverlay {
+        from { opacity: 1; }
+        to { opacity: 0; }
+      }
+      
+      @keyframes pulseUpgrade {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.03); }
+        100% { transform: scale(1); }
+      }
+
+      .rounded-popup {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+        overflow: hidden;
+        padding: 1.5rem;
+        box-sizing: border-box;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+      }
+
+      .rounded-popup::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        opacity: 0.05;
+        transform: rotate(45deg);
+        pointer-events: none;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 15px;
+        position: relative;
+      }
+
+      .header h1 {
+        font-size: 22px;
+        margin: 0;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        position: relative;
+        display: inline-block;
+        padding-bottom: 5px;
+        transition: transform 0.3s ease;
+      }
+
+      .header h1:hover {
+        transform: scale(1.05);
+        cursor: default;
+      }
+
+      .header h1::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        border-radius: 2px;
+        transition: width 0.3s ease;
+      }
+
+      .header h1:hover::after {
+        width: 80%;
+      }
+
+      .header p {
+        margin: 5px 0 0;
+        font-size: 12px;
+        color: #666;
+        opacity: 0.8;
+      }
+
+      #accessStatus,
+      #toolContent {
+        margin-bottom: 10px;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      /* Button styling */
+      button {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        font-family: inherit;
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-weight: 600;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        transform-style: preserve-3d;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 12px;
+      }
+
+      button i {
+        font-size: 16px;
+      }
+
+      button:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 5px 15px rgba(103,58,183,0.3),
+                   0 10px 30px rgba(0,201,183,0.2);
+      }
+
+      button:active {
+        transform: translateY(1px) scale(0.98);
+      }
+
+      button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 200%;
+        height: 100%;
+        background: linear-gradient(
+          to right,
+          transparent 0%,
+          rgba(255,255,255,0.3) 50%,
+          transparent 100%
+        );
+        transform: skewX(-30deg);
+        transition: left 1s ease;
+      }
+
+      button:hover::before {
+        left: 200%;
+      }
+
+      button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Feature sections */
+      .feature-section {
+        margin-bottom: 16px;
+      }
+      
+      .section-title {
+        font-size: 14px;
+        color: #374151;
+        margin: 0 0 8px 0;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      
+      .section-divider {
+        height: 1px;
+        background: #e5e7eb;
+        margin: 16px 0;
+      }
+      
+      .feature-description {
+        font-size: 11px;
+        color: #6b7280;
+        margin: 4px 0 0 0;
+        font-style: italic;
+      }
+
+      /* Lecture Summary button - Consistent with main theme */
+      #lectureSummaryButton {
+        background: linear-gradient(90deg, #673ab7, #00c9b7);
+        transition: all 0.3s ease;
+      }
+
+      /* PDF Only Summary button - Consistent with main theme */
+      #pdfOnlySummaryButton {
+        background: linear-gradient(90deg, #673ab7, #00c9b7);
+        transition: all 0.3s ease;
+      }
+      
+      /* Sub-options - Slightly lighter variants of main theme */
+      #addPdfToLecture {
+        background: linear-gradient(90deg, #8e7cc3, #33d4c7);
+        font-size: 14px;
+        padding: 8px 12px;
+        margin-bottom: 8px;
+      }
+      
+      #summarizeLectureOnly {
+        background: linear-gradient(90deg, #f59e0b, #d97706);
+        font-size: 14px;
+        padding: 8px 12px;
+      }
+
+
+
+      /* Go to Dashboard button gradient - Golden hue */
+      #manageSubscriptions {
+        background: linear-gradient(90deg, #f59e0b, #d97706);
+      }
+      
+      /* Settings button (gear icon) */
+      #settingsButton {
+        background: none;
+        color: #666;
+        box-shadow: none;
+        width: auto;
+        margin: 0 auto;
+        padding: 5px;
+        transition: transform 0.3s ease;
+      }
+
+      #settingsButton:hover {
+        color: var(--primary);
+        background: none;
+        box-shadow: none;
+        transform: scale(1.1);
+      }
+      
+
+
+      /* Footer */
+      .footer {
+        text-align: center;
+        font-size: 12px;
+        color: #666;
+        margin-top: 5px;
+      }
+
+      /* Usage counter styles */
+      .usage-counter {
+        background: rgba(255,255,255,0.9);
+        border-radius: 10px;
+        padding: 10px;
+        margin: 10px 0;
+        font-size: 14px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border: 1px solid rgba(103,58,183,0.1);
+      }
+      
+      .usage-counter .title {
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      
+      .usage-progress {
+        height: 8px;
+        background: #e9ecef;
+        border-radius: 4px;
+        margin: 8px 0;
+        overflow: hidden;
+      }
+      
+      .usage-bar {
+        height: 100%;
+        background: linear-gradient(90deg, var(--secondary), var(--primary));
+        border-radius: 4px;
+        transition: width 0.3s ease;
+      }
+      
+      .usage-text {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+      }
+      
+      .usage-text span {
+        color: #666;
+      }
+      
+      .usage-text .limit {
+        font-weight: 600;
+      }
+
+      /* Home button styles */
+      #homeButton {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: none;
+        color: #666;
+        box-shadow: none;
+        width: auto;
+        margin: 0;
+        padding: 5px;
+        font-size: 16px;
+        transition: transform 0.3s ease, color 0.3s ease;
+        z-index: 1010;
+      }
+
+      #homeButton:hover {
+        color: var(--primary);
+        transform: scale(1.1);
+        background: none;
+        box-shadow: none;
+      }
+
+      /* Feedback button styles */
+      #feedbackButton {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        color: #666;
+        box-shadow: none;
+        width: auto;
+        margin: 0;
+        padding: 5px;
+        font-size: 16px;
+        transition: transform 0.3s ease, color 0.3s ease;
+        z-index: 1010;
+      }
+
+      #feedbackButton:hover {
+        color: var(--accent);
+        transform: scale(1.1);
+        background: none;
+        box-shadow: none;
+      }
+      
+      /* Feedback popup styles */
+      .feedback-popup {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        padding: 20px;
+        z-index: 1020;
+        text-align: center;
+        animation: fadeInUpgrade 0.4s ease-out;
+      }
+      
+      .feedback-popup h3 {
+        margin-top: 0;
+        color: var(--primary);
+        font-size: 16px;
+      }
+      
+      .feedback-popup p {
+        font-size: 14px;
+        margin-bottom: 15px;
+        color: #4b5563;
+      }
+      
+      .feedback-buttons {
+        display: flex;
+        gap: 10px;
+      }
+      
+      .feedback-btn {
+        flex: 1;
+        padding: 8px;
+        border: none;
+        border-radius: 8px;
+        font-family: inherit;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .feedback-btn.primary {
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        color: white;
+      }
+      
+      .feedback-btn.secondary {
+        background: #f3f4f6;
+        color: #4b5563;
+      }
+      
+      .feedback-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      }
+
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      
+      @keyframes spinGradient {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
+      }
+
+      /* Button spinner styles */
+      .btn-progress .spinner {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s linear infinite;
+        pointer-events: none;
+        z-index: 2;
+      }
+      
+      /* Connection spinner styles */
+      .connection-spinner {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 10px 0;
+      }
+      
+      .connection-spinner .spinner-ring {
+        width: 30px;
+        height: 30px;
+        border: 3px solid rgba(103, 58, 183, 0.2);
+        border-top-color: var(--primary);
+        border-right-color: var(--secondary);
+        border-radius: 50%;
+        animation: spinGradient 1s linear infinite;
+        position: relative;
+      }
+      
+      .connection-spinner .spinner-ring::after {
+        content: '';
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
+        border: 3px solid transparent;
+        border-top-color: var(--secondary);
+        border-left-color: var(--primary);
+        border-radius: 50%;
+        animation: spinGradient 0.8s linear infinite reverse;
+        opacity: 0.7;
+      }
+      
+      .connection-spinner .spinner-text {
+        font-size: 14px;
+        color: var(--primary);
+        font-weight: 500;
+        animation: pulse 2s ease-in-out infinite;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Our "card" container with rounded corners -->
+    <div class="rounded-popup">
+      
+      
+      <!-- Home button -->
+      <a href="https://study-cap.com/home" target="_blank" style="text-decoration: none;">
+        <button id="homeButton" type="button">
+          <i class="fas fa-home"></i>
+        </button>
+      </a>
+      
+      <!-- Feedback button -->
+      <button id="feedbackButton" type="button">
+        <i class="fas fa-comment-dots"></i>
+      </button>
+      
+      <div class="header">
+        <h1>StudyCap</h1>
+        <p>AI-Powered Lecture Summarizer</p>
+      </div>
+      <div id="accessStatus">
+        <div class="connection-spinner">
+          <div class="spinner-ring"></div>
+          <span class="spinner-text">Connecting...</span>
+        </div>
+      </div>
+      
+      <!-- New Usage Counter Section -->
+      <div id="usageCounter" class="usage-counter" style="display: none;">
+        <div class="title">
+          <i class="fas fa-chart-line"></i> Daily Usage
+        </div>
+        <div class="usage-progress">
+          <div id="usageBar" class="usage-bar" style="width: 0%"></div>
+        </div>
+        <div class="usage-text">
+          <span>Used: <strong id="usedCount">0</strong></span>
+          <span class="limit">Limit: <strong id="limitCount">5</strong></span>
+        </div>
+      </div>
+      
+      <div id="toolContent"></div>
+      
+      <!-- Lecture Section -->
+      <div class="feature-section">
+        <h3 class="section-title">
+          <i class="fas fa-graduation-cap"></i>
+          Lecture Summaries
+        </h3>
+        <button id="lectureSummaryButton" disabled>
+          <i class="fas fa-graduation-cap"></i> LECTURE SUMMARY
+        </button>
+        <div id="lectureOptions" style="display:none; margin-top: 10px;">
+          <button id="addPdfToLecture" disabled>
+            <i class="fas fa-plus-circle"></i> Add PDF/PowerPoint to Lecture
+          </button>
+          <input type="file" id="pdfInput" accept="application/pdf,.pptx,.ppt,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.ms-powerpoint" style="display:none;" />
+          <button id="summarizeLectureOnly" disabled>
+            <i class="fas fa-magic"></i> Summarize Lecture Only
+          </button>
+        </div>
+      </div>
+      
+      <!-- Divider -->
+      <div class="section-divider"></div>
+      
+      <!-- PDF Section -->
+      <div class="feature-section">
+        <h3 class="section-title">
+          <i class="fas fa-file-pdf"></i>
+          PDF/PowerPoint Summaries
+        </h3>
+        <button id="pdfOnlySummaryButton" disabled>
+          <i class="fas fa-file-pdf"></i> PDF/POWERPOINT SUMMARY
+        </button>
+        <p class="feature-description">
+          Upload PDF/PowerPoint files on the dashboard to create summaries
+        </p>
+      </div>
+      
+
+      
+      <!-- Go to Dashboard button -->
+      <a href="https://study-cap.com/dashboard" target="_blank" style="text-decoration: none; display: block;">
+        <button id="manageSubscriptions"><i class="fas fa-crown"></i> Go to Dashboard</button>
+      </a>
+      
+      <!-- Settings button -->
+      <div style="text-align: center;">
+        <a href="https://study-cap.com/manage-subscriptions" target="_blank" style="text-decoration: none;">
+          <button id="settingsButton" type="button"><i class="fas fa-cog"></i> Manage Subscription</button>
+        </a>
+      </div>
+      
+      <!-- Footer -->
+      <div class="footer">
+        v1.0.0 &bull; Made with <i class="fas fa-heart" style="color: #ec4899;"></i> for students
+      </div>
+    </div>
+    
+    <!-- Script -->
+    <script src="popup.js"></script>
+  </body>
+</html>

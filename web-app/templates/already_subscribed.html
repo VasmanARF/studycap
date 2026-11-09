@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Subscription Active - StudyCap</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <!-- Add Outfit font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    
+    <!-- PostHog Analytics -->
+    <script>
+        !function(t,e){var o,n,p,r;e.__SV||(window.posthog && window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Rr Mr fi Or Ar ci Tr Cr capture Mi calculateEventProperties Lr register register_once register_for_session unregister unregister_for_session Hr getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Ur jr createPersonProfile zr kr Br opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing Dr debug M Nr getPageViewId captureTraceFeedback captureTraceMetric $r".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+
+        posthog.init('{{ posthog_key }}', {
+            api_host: 'https://us.i.posthog.com',
+            defaults: '2025-05-24',
+            person_profiles: 'identified_only'
+        })
+        
+        posthog.capture('$pageview', {
+            page: '/already-subscribed',
+            page_title: 'Subscription Active - StudyCap'
+        });
+    </script>
+    <script defer src="/static/js/posthog-identify.js"></script>
+    
+    <style>
+      :root {
+        --primary: #673ab7;
+        --secondary: #00c9b7;
+        --accent: #ec4899;
+      }
+
+      body {
+        margin: 0;
+        padding: 40px 20px;
+        font-family: 'Outfit', sans-serif;
+        color: #2d3748;
+        position: relative;
+        overflow-x: hidden;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      }
+
+      /* Animated background elements */
+      body::before,
+      body::after {
+        content: '';
+        position: fixed;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(103,58,183,0.1) 0%,
+          transparent 60%
+        );
+        filter: blur(80px);
+        z-index: -1;
+        animation: float 20s infinite linear;
+      }
+
+      body::before {
+        top: -200px;
+        left: -200px;
+        background: radial-gradient(
+          circle,
+          rgba(0,201,183,0.1) 0%,
+          transparent 60%
+        );
+      }
+
+      body::after {
+        bottom: -200px;
+        right: -200px;
+        animation-direction: reverse;
+      }
+
+      .container {
+        max-width: 700px;
+        margin: 2rem auto;
+        background: rgba(255,255,255,0.9);
+        padding: 2.5rem;
+        border-radius: 1.5rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.2);
+        text-align: center;
+      }
+
+      .container::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        opacity: 0.05;
+        transform: rotate(45deg);
+        pointer-events: none;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2.5rem;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        position: relative;
+        padding-bottom: 0.5rem;
+        transition: transform 0.3s ease;
+      }
+
+      h1:hover {
+        transform: scale(1.02);
+        cursor: default;
+      }
+
+      h1::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        border-radius: 2px;
+        transition: width 0.3s ease;
+      }
+
+      h1:hover::after {
+        width: 80%;
+      }
+
+      /* Enhanced Text Hover Effects */
+      .hover-glow {
+        transition: text-shadow 0.3s ease, transform 0.3s ease;
+      }
+
+      .hover-glow:hover {
+        text-shadow: 0 0 15px rgba(103,58,183,0.2);
+        transform: translateY(-2px);
+      }
+
+      /* Particle Animation */
+      @keyframes float {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        25% { transform: translate(100px, 100px) rotate(90deg); }
+        50% { transform: translate(0, 200px) rotate(180deg); }
+        75% { transform: translate(-100px, 100px) rotate(270deg); }
+        100% { transform: translate(0, 0) rotate(360deg); }
+      }
+
+      /* Home Button */
+      .home-button {
+        display: inline-block;
+        margin-top: 0.2rem;
+        padding: 0.8rem 2rem;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        color: #fff;
+        border: none;
+        border-radius: 0.6rem;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        transform-style: preserve-3d;
+        text-decoration: none;
+      }
+
+      .home-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 200%;
+        height: 100%;
+        background: linear-gradient(
+          to right,
+          transparent 0%,
+          rgba(255,255,255,0.3) 50%,
+          transparent 100%
+        );
+        transform: skewX(-30deg);
+        transition: left 1s ease;
+      }
+
+      .home-button:hover {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 5px 15px rgba(103,58,183,0.3),
+                   0 10px 30px rgba(0,201,183,0.2);
+      }
+
+      .home-button:hover::before {
+        left: 200%;
+      }
+
+      .home-button:active {
+        transform: translateY(1px) scale(0.98);
+      }
+
+      /* Message styling */
+      .message {
+        font-size: 1.2rem;
+        margin: 2rem 0;
+        padding: 1.5rem;
+        background: white;
+        border-radius: 0.8rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        position: relative;
+        animation: messageAppear 0.5s ease;
+      }
+
+      .message:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      }
+
+      @keyframes messageAppear {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Success icon */
+      .success-icon {
+        font-size: 4rem;
+        color: var(--secondary);
+        margin-bottom: 1rem;
+        display: block;
+      }
+
+      /* Interactive Background Noise */
+      .container::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAFVklEQVR4XpWWB67c2BUFb3g557T/hRo9/WUMZHlgr4Bg8Z4qQgQJlHI4A8SzFVrapvmTF9O7dmYRFZ60YiBhJRCgh1FYhiLAmdvX0CzTOpNE77ME0Zty/nWWzchDtiqrmQDeuv3powQ5ta2eN0FY0InkqDD73lT9c9lEzwUNqgFHs9VQce3TVClFCQrSTfOiYkVJQBmpbq2L6iZavPnAPcoU0dSw0SUTqz/GtrGuXfbyyBniKykOWQWGqwwMA7QiYAxi+IlPdqo+hYHnUt5ZPfnsHJyNiDtnpJyayNBkF6cWoYGAMY92U2hXHF/C1M8uP/ZtYdiuj26UdAdQQSXQErwSOMzt/XWRWAz5GuSBIkwG1H3FabJ2OsUOUhGC6tK4EMtJO0ttC6IBD3kM0ve0tJwMdSfjZo+EEISaeTr9P3wYrGjXqyC1krcKdhMpxEnt5JetoulscpyzhXN5FRpuPHvGQZUqMvSDI5SXHFU2oKHarpCJCXIpHP9dzG645YqWxWe30wKqOkZ7QfWPX3T5lU6D6tLr/cFsLwX4XMWX5jZWVGBeZDa7fp8ubn6w==');
+        opacity: 0.02;
+        pointer-events: none;
+        z-index: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <span class="success-icon">✅</span>
+      <h1 class="hover-glow">Subscription Active</h1>
+      <div class="message hover-glow">
+        {{ message }}
+      </div>
+      <a href="/dashboard" class="home-button">Go to Dashboard</a>
+    </div>
+    
+    <!-- Custom cursor element -->
+    
+    
+    
+  </body>
+</html>

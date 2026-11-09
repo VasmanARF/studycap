@@ -1,0 +1,18 @@
+{
+    "name": "StudyCap - Transform Your Lectures",
+    "short_name": "StudyCap",
+    "description": "AI-powered lecture summarization and study tools",
+    "icons": [
+        {
+            "src": "/favicon.png",
+            "sizes": "any",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#6366f1",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "start_url": "/",
+    "scope": "/"
+}
+

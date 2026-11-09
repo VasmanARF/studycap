@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Subscription Activated</title>
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
+<!-- Add Outfit font -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap"
+rel="stylesheet">
+
+<!-- PostHog Analytics -->
+<script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog && window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Rr Mr fi Or Ar ci Tr Cr capture Mi calculateEventProperties Lr register register_once register_for_session unregister unregister_for_session Hr getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Ur jr createPersonProfile zr kr Br opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing Dr debug M Nr getPageViewId captureTraceFeedback captureTraceMetric $r".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+
+    posthog.init('{{ posthog_key }}', {
+        api_host: 'https://us.i.posthog.com',
+        defaults: '2025-05-24',
+        person_profiles: 'identified_only'
+    })
+    
+    // Track subscription success page
+    posthog.capture('$pageview', {
+        page: '/thanks',
+        page_title: 'Subscription Activated - StudyCap'
+    });
+    
+    // Track conversion event
+    posthog.capture('subscription_successful', {
+        page: '/thanks'
+    });
+</script>
+<script defer src="/static/js/posthog-identify.js"></script>
+
+<style>
+:root {
+--primary: #673ab7;
+--secondary: #00c9b7;
+--gradient-text: linear-gradient(90deg, #673ab7, #00c9b7);
+--accent: #ec4899;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  color: #2d3748;
+  position: relative;
+  overflow-x: hidden;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Animated background elements */
+body::before,
+body::after {
+content: '';
+position: fixed;
+width: 500px;
+height: 500px;
+background: radial-gradient(circle, rgba(103,58,183,0.1) 0%, transparent 60%);
+filter: blur(80px);
+z-index: -1;
+animation: float 20s infinite linear;
+}
+
+body::before {
+top: -200px;
+left: -200px;
+background: radial-gradient(circle, rgba(0,201,183,0.1) 0%, transparent 60%);
+}
+
+body::after {
+bottom: -200px;
+right: -200px;
+animation-direction: reverse;
+}
+
+.container {
+  max-width: 800px;
+  width: 90%;
+  background: rgba(255,255,255,0.95);
+  padding: 3rem;
+  border-radius: 2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  position: relative;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.3);
+  z-index: 5;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+/* Title styling */
+.title {
+display: flex;
+align-items: center;
+justify-content: center;
+margin-bottom: 2rem;
+font-size: 2.5rem;
+font-weight: 700;
+position: relative;
+padding-bottom: 0.5rem;
+}
+
+.title-icon {
+margin-right: 0.5rem;
+font-size: 2rem;
+}
+
+.title-text {
+background: var(--gradient-text);
+-webkit-background-clip: text;
+background-clip: text;
+color: transparent;
+position: relative;
+transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.title-text::after {
+content: '';
+position: absolute;
+bottom: -10px;
+left: 0;
+width: 100%;
+height: 3px;
+background: var(--gradient-text);
+border-radius: 2px;
+transform: scaleX(0);
+transition: transform 0.4s ease-out, opacity 0.3s ease;
+transform-origin: center;
+opacity: 0;
+}
+
+.title-text:hover {
+transform: scale(1.03);
+}
+
+.title-text:hover::after {
+transform: scaleX(1);
+opacity: 1;
+}
+
+/* Content styling */
+.description {
+font-size: 1.1rem;
+margin-bottom: 1.5rem;
+line-height: 1.5;
+}
+
+.features {
+margin: 1.5rem 0;
+text-align: center;
+}
+
+.feature-item {
+margin: 0.5rem 0;
+font-size: 1.1rem;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.feature-icon {
+color: var(--primary);
+margin-right: 0.5rem;
+font-weight: bold;
+}
+
+.support {
+margin-top: 2.5rem;
+font-size: 0.9rem;
+color: #6c757d;
+}
+
+/* Particle Animation */
+@keyframes float {
+0% { transform: translate(0, 0) rotate(0deg); }
+25% { transform: translate(100px, 100px) rotate(90deg); }
+50% { transform: translate(0, 200px) rotate(180deg); }
+75% { transform: translate(-100px, 100px) rotate(270deg); }
+100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+.button {
+margin-top: 2rem;
+padding: 0.8rem 2.5rem;
+background: linear-gradient(90deg, #673ab7, #00c9b7);
+color: #fff;
+border: none;
+border-radius: 2rem;
+cursor: pointer;
+font-size: 1.1rem;
+font-weight: 600;
+position: relative;
+overflow: hidden;
+transition: all 0.3s ease;
+transform-style: preserve-3d;
+display: inline-block;
+text-decoration: none;
+text-align: center;
+}
+
+.button::before {
+content: '';
+position: absolute;
+top: 0;
+left: -100%;
+width: 200%;
+height: 100%;
+background: linear-gradient(
+to right,
+transparent 0%,
+rgba(255,255,255,0.3) 50%,
+transparent 100%
+);
+transform: skewX(-30deg);
+transition: left 1s ease;
+}
+
+.button:hover {
+transform: translateY(-2px) scale(1.05);
+box-shadow: 0 5px 15px rgba(103,58,183,0.3),
+0 10px 30px rgba(0,201,183,0.2);
+}
+
+.button:hover::before {
+left: 200%;
+}
+
+.button:active {
+transform: translateY(1px) scale(0.98);
+}
+
+/* Pulsating animation for button */
+@keyframes pulse {
+0% {
+  transform: scale(1);
+  box-shadow: 0 5px 15px rgba(103,58,183,0.2);
+}
+50% {
+  transform: scale(1.05);
+  box-shadow: 0 5px 20px rgba(103,58,183,0.4), 
+              0 10px 30px rgba(0,201,183,0.3);
+}
+100% {
+  transform: scale(1);
+  box-shadow: 0 5px 15px rgba(103,58,183,0.2);
+}
+}
+
+.pulse-animation {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+/* Canvas for confetti */
+#confetti-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+}
+
+#confetti {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
+    padding: 2rem 1.5rem;
+    margin: 0;
+  }
+  
+  .title {
+    font-size: 2rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .title-icon {
+    margin: 0;
+  }
+  
+  .description {
+    font-size: 1rem;
+  }
+  
+  .feature-item {
+    font-size: 1rem;
+  }
+  
+  .button {
+    padding: 0.7rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: 95%;
+    padding: 1.5rem 1rem;
+    margin: 0;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .description {
+    font-size: 0.95rem;
+  }
+}
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="container">
+<div class="title">
+<span class="title-icon">🎉</span>
+<span class="title-text">Subscription Activated!</span>
+<span class="title-icon">🎉</span>
+</div>
+
+<div class="description">
+<p>Your StudyCap Pro subscription is now active!</p>
+<p>You'll gain immediate access to premium features including:</p>
+</div>
+
+<div class="features">
+<div class="feature-item">
+<span class="feature-icon">✨</span> No ads
+</div>
+<div class="feature-item">
+<span class="feature-icon">✨</span> Unlimited lecture summaries
+</div>
+<div class="feature-item">
+<span class="feature-icon">✨</span> Full quiz features
+</div>
+<div class="feature-item">
+<span class="feature-icon">✨</span> Advanced StudyCap AI model
+</div>
+</div>
+
+<a href="/dashboard" class="button pulse-animation">Go to Dashboard ✨</a>
+
+<div class="support">
+<p>Need help? Contact our support team at support@studycap.com</p>
+</div>
+</div>
+
+
+<script>
+// Confetti canvas animation - a much better approach using canvas for performance
+document.addEventListener('DOMContentLoaded', function() {
+  // Canvas setup
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  
+  // Set canvas size to window size
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  
+  // Call resize on load and on window resize
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+  
+  // Confetti particles array
+  const confettiArray = [];
+  
+  // Confetti colors - brand colors plus festive additions
+  const colors = [
+    '#673ab7', // primary purple
+    '#00c9b7', // secondary teal
+    '#ec4899', // accent pink
+    '#ffd700', // gold
+    '#ff7e5f', // coral
+    '#feb47b'  // peach
+  ];
+  
+  // Confetti shapes
+  const shapes = ['circle', 'square', 'triangle', 'rectangle'];
+  
+  // Helper function for random number generation
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+  
+  // Confetti particle class
+  class Confetti {
+    constructor() {
+      this.x = random(0, canvas.width);
+      this.y = random(-canvas.height, 0); // Start above the viewport
+      this.size = random(5, 12);
+      this.color = colors[Math.floor(random(0, colors.length))];
+      this.shape = shapes[Math.floor(random(0, shapes.length))];
+      this.speedY = random(1, 3);
+      this.speedX = random(-1, 1);
+      this.rotation = random(0, 2 * Math.PI);
+      this.rotationSpeed = random(-0.05, 0.05);
+      this.opacity = random(0.6, 1);
+      this.fadeOutSpeed = random(0.005, 0.01);
+    }
+    
+    update() {
+      // Move confetti
+      this.y += this.speedY;
+      this.x += this.speedX;
+      
+      // Rotate confetti
+      this.rotation += this.rotationSpeed;
+      
+      // Fade out confetti as it falls
+      if (this.y > canvas.height * 0.7) {
+        this.opacity -= this.fadeOutSpeed;
+      }
+      
+      // Return true if particle should be removed
+      return this.opacity <= 0 || this.y > canvas.height;
+    }
+    
+    draw() {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.rotation);
+      ctx.globalAlpha = this.opacity;
+      ctx.fillStyle = this.color;
+      
+      // Draw different shapes
+      switch(this.shape) {
+        case 'circle':
+          ctx.beginPath();
+          ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+          ctx.fill();
+          break;
+        case 'square':
+          ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+          break;
+        case 'triangle':
+          ctx.beginPath();
+          ctx.moveTo(0, -this.size / 2);
+          ctx.lineTo(-this.size / 2, this.size / 2);
+          ctx.lineTo(this.size / 2, this.size / 2);
+          ctx.closePath();
+          ctx.fill();
+          break;
+        case 'rectangle':
+          ctx.fillRect(-this.size / 2, -this.size / 4, this.size, this.size / 2);
+          break;
+      }
+      
+      ctx.restore();
+    }
+  }
+  
+  // Initial batch of confetti
+  function createInitialConfetti() {
+    for (let i = 0; i < 150; i++) {
+      confettiArray.push(new Confetti());
+    }
+  }
+  
+  // Add more confetti periodically
+  function addConfetti() {
+    for (let i = 0; i < 20; i++) {
+      confettiArray.push(new Confetti());
+    }
+  }
+  
+  // Animation loop
+  function animate() {
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Update and draw confetti
+    for (let i = confettiArray.length - 1; i >= 0; i--) {
+      const confetti = confettiArray[i];
+      if (confetti.update()) {
+        // Remove confetti if it's off screen or faded out
+        confettiArray.splice(i, 1);
+      } else {
+        confetti.draw();
+      }
+    }
+    
+    // Add more confetti if needed
+    if (confettiArray.length < 100) {
+      addConfetti();
+    }
+    
+    // Continue animation
+    requestAnimationFrame(animate);
+  }
+  
+  // Start the animation
+  createInitialConfetti();
+  animate();
+  
+  // Add more confetti periodically for a continuous effect
+  setInterval(addConfetti, 1500);
+});
+</script>
+</body>
+</html>

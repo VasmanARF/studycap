@@ -1,0 +1,43 @@
+# Google App Engine config template.
+# Copy to app.yaml and fill in your values. app.yaml is git-ignored; never commit it.
+# Better still, keep secrets in Google Secret Manager instead of env_variables.
+
+runtime: python312
+env: standard
+instance_class: F1
+entrypoint: gunicorn -b :$PORT app:app
+
+handlers:
+- url: /static
+  static_dir: static
+  secure: always
+
+- url: /.*
+  script: auto
+  secure: always
+
+env_variables:
+  SECRET_KEY: "change-me"
+  STRIPE_SECRET_KEY: "sk_live_xxx"
+  STRIPE_PUBLIC_KEY: "pk_live_xxx"
+  STRIPE_WEBHOOK_SECRET: "whsec_xxx"
+  GOOGLE_CLIENT_ID: "your-client-id.apps.googleusercontent.com"
+  GOOGLE_CLIENT_SECRET: "your-client-secret"
+  INSTANCE_CONNECTION_NAME: "<project-id>:<region>:<instance-name>"
+  DB_HOST: "/cloudsql/<project-id>:<region>:<instance-name>"
+  DB_PORT: "3306"
+  DB_DATABASE: "studycap"
+  DB_USER: "studycap-user"
+  DB_PASSWORD: "your-db-password"
+  OPENAI_API_KEY: "sk-xxx"
+  YOUTUBE_API_KEY: "your-youtube-api-key"
+  POSTHOG_API_KEY: ""
+  ADMIN_KEY: "change-me"
+  FEEDBACK_ADMIN_PASSWORD: "change-me"
+
+automatic_scaling:
+  target_cpu_utilization: 0.95
+  min_instances: 0
+  max_instances: 1
+  target_throughput_utilization: 0.95
+  max_concurrent_requests: 10

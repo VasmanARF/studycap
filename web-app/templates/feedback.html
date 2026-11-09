@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyCap Feedback</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- PostHog Analytics -->
+    <script>
+        !function(t,e){var o,n,p,r;e.__SV||(window.posthog && window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Rr Mr fi Or Ar ci Tr Cr capture Mi calculateEventProperties Lr register register_once register_for_session unregister unregister_for_session Hr getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Ur jr createPersonProfile zr kr Br opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing Dr debug M Nr getPageViewId captureTraceFeedback captureTraceMetric $r".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+
+        posthog.init('{{ posthog_key }}', {
+            api_host: 'https://us.i.posthog.com',
+            defaults: '2025-05-24',
+            person_profiles: 'identified_only'
+        })
+        
+        posthog.capture('$pageview', {
+            page: '/feedback',
+            page_title: 'StudyCap Feedback'
+        });
+    </script>
+    <script defer src="/static/js/posthog-identify.js"></script>
+    
+    <style>
+        :root {
+            --primary: #673ab7;
+            --secondary: #00c9b7;
+            --accent: #ec4899;
+            --text: #2d3748;
+            --bg: #f8fafc;
+            --border: #e2e8f0;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text);
+            background-color: var(--bg);
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin: 30px 0;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 5px;
+            font-size: 32px;
+            width: 100%;
+        }
+        
+        .header-container {
+            text-align: center;
+            position: relative;
+        }
+        
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        
+        .intro {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 16px;
+            color: #4b5563;
+        }
+        
+        .feedback-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+        }
+        
+        .feedback-section {
+            margin-bottom: 25px;
+        }
+        
+        .feedback-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .rating-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .rating-title {
+            font-weight: 500;
+            font-size: 16px;
+            width: 25%;
+        }
+        
+        /* New star rating system */
+        .star-rating {
+            display: inline-flex;
+            flex-direction: row-reverse;
+            flex-grow: 1;
+        }
+        
+        .star-rating input {
+            display: none;
+        }
+        
+        .star-rating label {
+            cursor: pointer;
+            color: #d1d5db;
+            font-size: 28px;
+            margin: 0 5px;
+            transition: all 0.2s ease;
+        }
+        
+        .star-rating > label:before {
+            content: '\f005'; /* Font Awesome star */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+        }
+        
+        .star-rating > input:checked ~ label,
+        .star-rating:not(:checked) > label:hover,
+        .star-rating:not(:checked) > label:hover ~ label {
+            color: #fbbf24;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            resize: vertical;
+            font-family: inherit;
+            font-size: 16px;
+            min-height: 120px;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(103, 58, 183, 0.1);
+        }
+        
+        .submit-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        button[type="submit"] {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(103, 58, 183, 0.2);
+        }
+        
+        .thank-you {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .thank-you h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .thank-you p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .thank-you i {
+            font-size: 48px;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            border: none;
+            box-shadow: 0 4px 12px rgba(103, 58, 183, 0.2);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            font-size: 18px;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 5px 15px rgba(103, 58, 183, 0.3),
+                       0 10px 30px rgba(0, 201, 183, 0.2);
+        }
+        
+        .back-button:active {
+            transform: translateY(1px) scale(0.98);
+        }
+        
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(
+              to right,
+              transparent 0%,
+              rgba(255, 255, 255, 0.3) 50%,
+              transparent 100%
+            );
+            transform: skewX(-30deg);
+            transition: left 1s ease;
+        }
+        
+        .back-button:hover::before {
+            left: 200%;
+        }
+        
+        @media (max-width: 600px) {
+            .rating-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .rating-title {
+                width: 100%;
+            }
+            
+            .star-rating {
+                justify-content: space-between;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <h1>StudyCap Feedback</h1>
+    </div>
+    
+    <div class="intro">
+        <p>Thank you for helping us improve StudyCap! Your feedback is invaluable in making our tool better for everyone.</p>
+    </div>
+    
+    <form id="feedbackForm" class="feedback-card">
+        <div class="feedback-section">
+            <div class="section-title">Rate Your Experience</div>
+            
+            <div class="rating-container">
+                <div class="rating-title">Overall Helpfulness</div>
+                <div class="star-rating">
+                    <input type="radio" id="helpfulness-5" name="helpfulness" value="5" />
+                    <label for="helpfulness-5" title="5 stars"></label>
+                    
+                    <input type="radio" id="helpfulness-4" name="helpfulness" value="4" />
+                    <label for="helpfulness-4" title="4 stars"></label>
+                    
+                    <input type="radio" id="helpfulness-3" name="helpfulness" value="3" />
+                    <label for="helpfulness-3" title="3 stars"></label>
+                    
+                    <input type="radio" id="helpfulness-2" name="helpfulness" value="2" />
+                    <label for="helpfulness-2" title="2 stars"></label>
+                    
+                    <input type="radio" id="helpfulness-1" name="helpfulness" value="1" />
+                    <label for="helpfulness-1" title="1 star"></label>
+                </div>
+            </div>
+            
+            <div class="rating-container">
+                <div class="rating-title">Ease of Use</div>
+                <div class="star-rating">
+                    <input type="radio" id="usability-5" name="usability" value="5" />
+                    <label for="usability-5" title="5 stars"></label>
+                    
+                    <input type="radio" id="usability-4" name="usability" value="4" />
+                    <label for="usability-4" title="4 stars"></label>
+                    
+                    <input type="radio" id="usability-3" name="usability" value="3" />
+                    <label for="usability-3" title="3 stars"></label>
+                    
+                    <input type="radio" id="usability-2" name="usability" value="2" />
+                    <label for="usability-2" title="2 stars"></label>
+                    
+                    <input type="radio" id="usability-1" name="usability" value="1" />
+                    <label for="usability-1" title="1 star"></label>
+                </div>
+            </div>
+            
+            <div class="rating-container">
+                <div class="rating-title">Summary Quality</div>
+                <div class="star-rating">
+                    <input type="radio" id="quality-5" name="quality" value="5" />
+                    <label for="quality-5" title="5 stars"></label>
+                    
+                    <input type="radio" id="quality-4" name="quality" value="4" />
+                    <label for="quality-4" title="4 stars"></label>
+                    
+                    <input type="radio" id="quality-3" name="quality" value="3" />
+                    <label for="quality-3" title="3 stars"></label>
+                    
+                    <input type="radio" id="quality-2" name="quality" value="2" />
+                    <label for="quality-2" title="2 stars"></label>
+                    
+                    <input type="radio" id="quality-1" name="quality" value="1" />
+                    <label for="quality-1" title="1 star"></label>
+                </div>
+            </div>
+            
+            <div class="rating-container">
+                <div class="rating-title">Speed & Performance</div>
+                <div class="star-rating">
+                    <input type="radio" id="performance-5" name="performance" value="5" />
+                    <label for="performance-5" title="5 stars"></label>
+                    
+                    <input type="radio" id="performance-4" name="performance" value="4" />
+                    <label for="performance-4" title="4 stars"></label>
+                    
+                    <input type="radio" id="performance-3" name="performance" value="3" />
+                    <label for="performance-3" title="3 stars"></label>
+                    
+                    <input type="radio" id="performance-2" name="performance" value="2" />
+                    <label for="performance-2" title="2 stars"></label>
+                    
+                    <input type="radio" id="performance-1" name="performance" value="1" />
+                    <label for="performance-1" title="1 star"></label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="feedback-section">
+            <div class="section-title">Your Suggestions</div>
+            <textarea name="suggestions" placeholder="What would you like to see improved? Any features you'd like us to add? Any issues you're experiencing?"></textarea>
+        </div>
+        
+        <div class="submit-container">
+            <button type="submit">Submit Feedback</button>
+        </div>
+    </form>
+    
+    <div id="thankYou" class="feedback-card thank-you">
+        <i class="fas fa-check-circle"></i>
+        <h2>Thank You for Your Feedback!</h2>
+        <p>Your insights are incredibly valuable to us and will help make StudyCap even better.</p>
+        <button class="back-button" id="closeButton">Return to StudyCap</button>
+    </div>
+    
+    <script>
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect the form data
+            const formData = new FormData(this);
+            const data = {
+                helpfulness: formData.get('helpfulness') || null,
+                usability: formData.get('usability') || null,
+                quality: formData.get('quality') || null,
+                performance: formData.get('performance') || null,
+                suggestions: formData.get('suggestions') || '',
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent
+            };
+            
+            // Send the feedback to the server
+            fetch('/api/submit-feedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                credentials: 'include'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Show thank you message
+                document.getElementById('feedbackForm').style.display = 'none';
+                document.getElementById('thankYou').style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting your feedback. Please try again.');
+            });
+        });
+        
+        // Multiple approaches to close the window for better browser compatibility
+        document.getElementById('closeButton').addEventListener('click', function() {
+            // Try multiple methods to close the window
+            try {
+                // Method 1: Use window.close()
+                window.close();
+                
+                // Method 2: Use history.back() if we came from somewhere
+                setTimeout(function() {
+                    if (window.history.length > 1) {
+                        window.history.back();
+                    }
+                }, 100);
+                
+                // Method 3: As a last resort, redirect to dashboard
+                setTimeout(function() {
+                    window.location.href = 'https://study-cap.com/dashboard';
+                }, 200);
+            } catch (e) {
+                console.error('Error closing window:', e);
+                // Fallback
+                window.location.href = 'https://study-cap.com/dashboard';
+            }
+        });
+    </script>
+</body>
+</html> 
